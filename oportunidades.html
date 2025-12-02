@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Oportunidades – SISCOM</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css?v=5">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">SISCOM<span>.</span></a>
+            <nav class="main-nav" id="main-nav">
+                <ul>
+                    <li><a href="index.html#features">Funcionalidades</a></li>
+                    <li><a href="oportunidades.html" class="active">Painel de Oportunidades</a></li>
+                    <li><a href="index.html#desenvolvimento">Desenvolvimento</a></li>
+                    <li><a href="index.html#faq">FAQ</a></li>
+                </ul>
+            </nav>
+            <div class="header-buttons">
+                <a href="index.html#contact" class="btn btn-primary">Seja um Fornecedor</a>
+                <a href="login.html" class="btn btn-secondary">Entrar no Sistema</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu" aria-label="Abrir menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <header class="page-header">
+            <div class="container">
+                <h1>Painel de Oportunidades</h1>
+            </div>
+        </header>
+
+        <section class="oportunidades-page section-padding" style="padding-top: 0;">
+            <div class="container">
+                
+                <div class="filters-bar">
+                    
+                    <div class="form-group">
+                        <label for="school-filter">Filtrar por Escola</label>
+                        <select id="school-filter" aria-label="Filtrar por Escola">
+                            <option value="todas">Todas as Escolas</option>
+                            <option value="helena">Profª Helena Duarte</option>
+                            <option value="ribeiro">Padre Antônio Ribeiro Filho</option>
+                            <option value="elizabeth">Profª Elizabeth Candido</option>
+                            <option value="dilce">Dilce Ferreira Campos</option>
+                            <option value="saulo">CRECHE Saulo Gomes</option>
+                            <option value="venancio">EMEF Venâncio de Oliveira</option>
+                            <option value="paula">Profª Paula Nóbrega</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status-filter">Filtrar por Status</label>
+                        <select id="status-filter" aria-label="Filtrar por Status">
+                            <option value="todos">Todos</option>
+                            <option value="aberto">Aberto</option>
+                            <option value="encerrado">Encerrado</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="responsive-table">
+                    <table id="opportunities-table-full">
+                        <thead>
+                            <tr>
+                                <th>Escola (APM)</th>
+                                <th>Objeto da Compra</th>
+                                <th>Encerramento</th>
+                                <th>Modalidade</th>
+                                <th>Status</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>UME Profª Helena Duarte</td>
+                                <td>Aquisição de materiais de limpeza (Água sanitária, desinfetante)</td>
+                                <td>30/11/2025 - 17:00</td>
+                                <td>Cotação Eletrônica</td>
+                                <td><span class="status status-aberto">Aberto</span></td>
+                                <td><a href="login.html" class="btn btn-secondary btn-sm">Enviar Cotação</a></td>
+                            </tr>
+                            <tr>
+                                <td>CRECHE Saulo Gomes de Vargas</td>
+                                <td>Aquisição de brinquedos pedagógicos e tatames</td>
+                                <td>03/12/2025 - 09:00</td>
+                                <td>Pregão Presencial</td>
+                                <td><span class="status status-aberto">Aberto</span></td>
+                                <td><a href="login.html" class="btn btn-secondary btn-sm">Enviar Cotação</a></td>
+                            </tr>
+                            <tr>
+                                <td>UME Padre Antônio Ribeiro Filho</td>
+                                <td>Contratação de serviços de jardinagem e poda</td>
+                                <td>28/11/2025 - 14:00</td>
+                                <td>Dispensa de Licitação</td>
+                                <td><span class="status status-aberto">Aberto</span></td>
+                                <td><a href="login.html" class="btn btn-secondary btn-sm">Enviar Cotação</a></td>
+                            </tr>
+                            <tr>
+                                <td>EMEF Venâncio de Oliveira</td>
+                                <td>Manutenção corretiva em 15 computadores do laboratório</td>
+                                <td>01/12/2025 - 16:00</td>
+                                <td>Cotação Eletrônica</td>
+                                <td><span class="status status-aberto">Aberto</span></td>
+                                <td><a href="login.html" class="btn btn-secondary btn-sm">Enviar Cotação</a></td>
+                            </tr>
+                             <tr>
+                                <td>EME Profª Paula Nóbrega</td>
+                                <td>Aquisição de utensílios para cozinha industrial</td>
+                                <td>05/12/2025 - 09:00</td>
+                                <td>Pregão Presencial</td>
+                                <td><span class="status status-aberto">Aberto</span></td>
+                                <td><a href="login.html" class="btn btn-secondary btn-sm">Enviar Cotação</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>UME Profª Elizabeth Candido</td>
+                                <td>Compra de 50 kits de material escolar suplementar</td>
+                                <td>20/11/2025 - 10:00</td>
+                                <td>Cotação Eletrônica</td>
+                                <td><span class="status status-encerrado">Encerrado</span></td>
+                                <td><a href="#" class="btn btn-sm" disabled style="opacity: 0.5; cursor: not-allowed;">Ver Resultado</a></td>
+                            </tr>
+                            <tr>
+                                <td>UME Dilce Ferreira Campos</td>
+                                <td>Serviço de buffet para evento de encerramento</td>
+                                <td>10/11/2025 - 17:00</td>
+                                <td>Cotação Eletrônica</td>
+                                <td><span class="status status-encerrado">Encerrado</span></td>
+                                <td><a href="#" class="btn btn-sm" disabled style="opacity: 0.5; cursor: not-allowed;">Ver Resultado</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="footer-logo">SISCOM<span>.</span></div>
+<div class="footer-logo-etec">
+    <img src="img/logo-etec.png" alt="Logo ETEC" style="height: 40px; width: auto; display: block;">
+    <p>Versão Prévia: 17/11/2025.</p>
+</div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Navegação</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="oportunidades.html">Painel de Oportunidades</a></li>
+                        <li><a href="index.html#desenvolvimento">Desenvolvimento</a></li>
+                        <li><a href="index.html#faq">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Links Úteis</h4>
+                    <ul>
+                        <li><a href="https://www.cubatao.sp.gov.br" target="_blank">Prefeitura de Cubatão</a></li>
+                        <li><a href="https://www.cubatao.sp.gov.br/educacao" target="_blank">Secretaria de Educação</a></li>
+                        <li><a href="login.html">Login no Sistema</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                &copy; <span id="dynamic-year"></span> Esta plataforma é um projeto dos alunos do curso Técnico em Informática da ETEC de Cubatão.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // 1. Menu Mobile
+            const hamburger = document.getElementById("hamburger-menu");
+            const mainNav = document.getElementById("main-nav");
+            if (hamburger && mainNav) {
+                hamburger.addEventListener("click", () => {
+                    mainNav.classList.toggle("active");
+                });
+            }
+
+            const dynYear = document.getElementById("dynamic-year");
+            if(dynYear) dynYear.textContent = new Date().getFullYear();
+
+            const schoolFilter = document.getElementById("school-filter");
+            const statusFilter = document.getElementById("status-filter");
+            const tableFull = document.getElementById("opportunities-table-full");
+
+            if (schoolFilter && statusFilter && tableFull) {
+                const rows = tableFull.querySelectorAll("tbody tr");
+
+                function normalizeText(text) {
+                    return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                }
+
+                function applyFilters() {
+                    const schoolValue = normalizeText(schoolFilter.value);
+                    const statusValue = normalizeText(statusFilter.value);
+
+                    rows.forEach(row => {
+                        const schoolText = normalizeText(row.cells[0].textContent);
+                        const statusEl = row.querySelector(".status");
+                        const statusText = statusEl ? normalizeText(statusEl.textContent) : "";
+
+                        const matchSchool = (schoolValue === "todas" || schoolText.includes(schoolValue));
+                        
+                        const matchStatus = (statusValue === "todos" || statusText.includes(statusValue));
+
+                        if (matchSchool && matchStatus) {
+                            row.style.display = "";
+                        } else {
+                            row.style.display = "none";
+                        }
+                    });
+                }
+
+                schoolFilter.addEventListener("change", applyFilters);
+                statusFilter.addEventListener("change", applyFilters);
+            }
+        });
+    </script>
+
+</body>
+</html>

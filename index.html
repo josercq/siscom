@@ -129,13 +129,13 @@
                 <h2 class="section-title">Oportunidades Abertas</h2>
 
                 <div class="responsive-table">
-                    <table id="opportunities-table-index">
+                    <table id="opportunities-table-index" role="table" aria-label="Tabela de oportunidades abertas na página inicial">
                         <thead>
                             <tr>
-                                <th>Escola</th>
-                                <th>Objeto da Compra</th>
-                                <th>Encerramento</th>
-                                <th>Status</th>
+                                <th scope="col">Escola</th>
+                                <th scope="col">Objeto da Compra</th>
+                                <th scope="col">Encerramento</th>
+                                <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -254,31 +254,55 @@
         <section id="contact" class="contact-section section-padding">
             <div class="container">
                 <h2 class="section-title">Fale Conosco ou Cadastre-se</h2>
-                <form id="contact-form" class="contact-form">
+                <form id="contact-form" class="contact-form" novalidate>
                     <div class="form-group">
-                        <label for="name">Nome Completo / Razão Social</label>
-                        <input type="text" id="name" name="name" required>
+                        <label for="name">Nome Completo / Razão Social <span class="required" aria-label="campo obrigatório">*</span></label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            required
+                            aria-required="true"
+                            placeholder="Ex: João Silva ou Empresa LTDA"
+                        >
+                        <span class="form-error" role="alert"></span>
                     </div>
                     <div class="form-group">
-                        <label for="email">E-mail</label>
-                        <input type="email" id="email" name="email" required>
+                        <label for="email">E-mail <span class="required" aria-label="campo obrigatório">*</span></label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required
+                            aria-required="true"
+                            placeholder="seu.email@exemplo.com"
+                        >
+                        <span class="form-error" role="alert"></span>
                     </div>
                     <div class="form-group">
-                        <label for="subject">Assunto</label>
-                        <select id="subject" name="subject" required>
+                        <label for="subject">Assunto <span class="required" aria-label="campo obrigatório">*</span></label>
+                        <select id="subject" name="subject" required aria-required="true">
                             <option value="">Selecione...</option>
                             <option value="cadastro_fornecedor">Quero ser um fornecedor</option>
                             <option value="duvida_apm">Dúvida (sou da APM)</option>
                             <option value="suporte_tecnico">Suporte Técnico</option>
                             <option value="outros">Outros</option>
                         </select>
+                        <span class="form-error" role="alert"></span>
                     </div>
                     <div class="form-group">
-                        <label for="message">Mensagem</label>
-                        <textarea id="message" name="message" required></textarea>
+                        <label for="message">Mensagem <span class="required" aria-label="campo obrigatório">*</span></label>
+                        <textarea 
+                            id="message" 
+                            name="message" 
+                            required
+                            aria-required="true"
+                            placeholder="Digite sua mensagem aqui..."
+                        ></textarea>
+                        <span class="form-error" role="alert"></span>
                     </div>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Mensagem</button>
-                    <p id="form-message"></p>
+                    <p id="form-message" role="status" aria-live="polite"></p>
                 </form>
             </div>
         </section>
@@ -328,7 +352,7 @@
     <!-- =========================================================
          SCRIPT PRINCIPAL (MENU, FAQ, FILTROS, ANO, MODAL)
          ========================================================= -->
-    <script src="js/main.js"></script>
+    <script src="jsmain.js"></script>
 
     <!-- =========================================================
          MODAL DE FEEDBACK (SUCESSO)
@@ -343,92 +367,6 @@
             <button id="custom-modal-close" class="custom-close-btn">Fechar</button>
         </div>
     </div>
-
-    <!-- =========================================================
-         SCRIPT MODAL DE CONTATO
-         ========================================================= -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const form = document.getElementById("contact-form");
-            const modal = document.getElementById("custom-modal-overlay");
-            const closeBtn = document.getElementById("custom-modal-close");
-            
-            const popupTitle = document.getElementById("popup-title");
-            const popupText = document.getElementById("popup-text");
-            const subjectSelect = document.getElementById("subject");
-
-            if (form && modal && closeBtn) {
-                form.addEventListener("submit", function(e) {
-                    e.preventDefault(); 
-                    
-                    const submitBtn = form.querySelector('button[type="submit"]');
-                    const originalText = submitBtn.textContent;
-                    submitBtn.textContent = "Enviando...";
-                    submitBtn.disabled = true;
-
-                    setTimeout(() => {
-                        if (subjectSelect && subjectSelect.value === "cadastro_fornecedor") {
-                            popupTitle.textContent = "Cadastro Solicitado!";
-                            popupText.textContent = "Verifique sua caixa de e-mail para continuar seu cadastro como fornecedor.";
-                        } else {
-                            popupTitle.textContent = "Mensagem Enviada!";
-                            popupText.textContent = "A equipe do SISCOM retornará por e-mail em breve.";
-                        }
-
-                        modal.classList.add("is-visible");
-                        
-                        form.reset();
-                        submitBtn.textContent = originalText;
-                        submitBtn.disabled = false;
-                    }, 1000);
-                });
-
-                closeBtn.addEventListener("click", function() {
-                    modal.classList.remove("is-visible");
-                });
-
-                modal.addEventListener("click", function(e) {
-                    if (e.target === modal) {
-                        modal.classList.remove("is-visible");
-                    }
-                });
-            }
-        });
-    </script>
-
-    <!-- =========================================================
-         SCRIPT ESPECÍFICO DO FAQ (ACORDEÃO)
-         ========================================================= -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const faqHeaders = document.querySelectorAll(".faq-item-header");
-
-            if (faqHeaders.length > 0) {
-                faqHeaders.forEach(header => {
-                    const newHeader = header.cloneNode(true);
-                    header.parentNode.replaceChild(newHeader, header);
-
-                    newHeader.addEventListener("click", () => {
-                        const currentItem = newHeader.parentElement;
-                        const currentBody = currentItem.querySelector(".faq-item-body");
-
-                        const isOpen = currentItem.classList.contains("active");
-
-                        document.querySelectorAll(".faq-item").forEach(item => {
-                            item.classList.remove("active");
-                            const body = item.querySelector(".faq-item-body");
-                            if (body) body.style.maxHeight = null;
-                        });
-
-                        if (!isOpen) {
-                            currentItem.classList.add("active");
-                            currentBody.style.maxHeight = currentBody.scrollHeight + "px";
-                        }
-                    });
-                });
-            }
-        });
-    </script>
 
 </body>
 </html>

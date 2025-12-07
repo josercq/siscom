@@ -433,15 +433,49 @@ tbody tr:hover { background-color: #e2e4e6; }
     color: #222;
 }
 
+.form-group label .required {
+    color: #e53e3e;
+    margin-left: 0.25rem;
+}
+
 .form-group input,
 .form-group textarea,
 .form-group select {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 6px;
     font-size: 1rem;
     background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(242, 217, 107, 0.2);
+}
+
+.form-group input.is-invalid,
+.form-group textarea.is-invalid,
+.form-group select.is-invalid {
+    border-color: #e53e3e;
+}
+
+.form-group input.is-invalid:focus,
+.form-group textarea.is-invalid:focus,
+.form-group select.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2);
+}
+
+.form-error {
+    display: block;
+    color: #e53e3e;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    min-height: 1.2em;
 }
 
 .form-group textarea {
@@ -536,18 +570,7 @@ tbody tr:hover { background-color: #e2e4e6; }
 /* =========================
    12) MODAL (INDEX)
    ========================= */
-/* Modal comum (caso use classe no futuro) */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0,0,0,0.7);
-    z-index: 99999;
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Modal do index (usa ID, não classe) */
+.modal-overlay,
 #custom-modal-overlay {
     position: fixed;
     inset: 0;
@@ -584,15 +607,29 @@ tbody tr:hover { background-color: #e2e4e6; }
 }
 
 .modal-icon i,
-.custom-modal-icon {
+.custom-modal-icon i {
     font-size: 4rem;
     color: var(--primary-color);
     margin-bottom: 1rem;
     text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
 }
 
-/* Botão de fechar do modal do index */
-.custom-close-btn {
+.modal-box h3,
+.custom-modal-box h3 {
+    color: #222;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.modal-box p,
+.custom-modal-box p {
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+/* Botão de fechar do modal */
+.custom-close-btn,
+.modal-close-btn {
     background-color: #333;
     color: #fff;
     border: none;
@@ -602,7 +639,11 @@ tbody tr:hover { background-color: #e2e4e6; }
     cursor: pointer;
     transition: background 0.3s;
 }
-.custom-close-btn:hover { background-color: #000; }
+
+.custom-close-btn:hover,
+.modal-close-btn:hover {
+    background-color: #000;
+}
 
 /* =========================
    13) RESPONSIVIDADE

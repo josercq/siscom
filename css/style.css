@@ -1,24 +1,19 @@
-/* /css/style.css - VERSÃO FINAL REVISADA (Universal) */
+/* =========================================================
+   SISCOM - style.css (2025-12-06 21:07)
+   ========================================================= */
 
-/* =========================================
-   1. VARIÁVEIS E RESET
-   ========================================= */
+/* =========================
+   1) VARIÁVEIS E RESET
+   ========================= */
 :root {
-    /* Cores Principais */
-    --primary-color: #f5dd42; /* Amarelo Institucional */
-    --primary-text-on-color: #333333; /* Texto para contraste no amarelo */
-    
-    --secondary-color: #10B981; /* Verde (Status/Alertas) */
-    --dark-color: #2c3e50;
-    
-    /* Cores de Fundo e Texto */
-    --light-color: #ffffff; 
-    --bg-content: #f2f4f6;  /* Cinza Legível (Cards/Tabelas) */
-    
-    /* Gradiente de Fundo do Body */
-    --bg-body-gradient-start: #e0e0e0;
-    --bg-body-gradient-end: #cfcfcf;
-
+    --primary-color: #f5dd42;      /* Amarelo SISCOM */
+    --primary-text-on-color: #333; /* Texto em amarelo */
+    --secondary-color: #10B981;    /* Verde sucesso */
+    --dark-color: #000000;         /* Preto base */
+    --light-color: #ffffff;        /* Branco */
+    --bg-content: #f2f4f6;         /* Cinza claro */
+    --bg-body-start: #e0e0e0;
+    --bg-body-end: #cfcfcf;
     --text-color: #333;
     --text-light: #555;
     --border-color: #d1d5db;
@@ -32,36 +27,23 @@
 }
 
 html {
-    scroll-behavior: smooth;
     height: 100%;
+    scroll-behavior: smooth;
 }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: var(--text-color);
     line-height: 1.6;
-    padding-top: 80px; /* Espaço para o menu fixo */
-    
-    /* Fundo Geral Gradiente */
-    background: linear-gradient(180deg, var(--bg-body-gradient-start) 0%, var(--bg-body-gradient-end) 100%);
-    background-attachment: fixed;
     min-height: 100vh;
-}
-
-/* Utilitários */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
+    padding-top: 80px; /* espaço para header fixo */
+    background: linear-gradient(180deg, var(--bg-body-start) 0%, var(--bg-body-end) 100%);
+    background-attachment: fixed;
 }
 
 img {
     max-width: 100%;
     height: auto;
-}
-
-ul {
-    list-style: none;
 }
 
 a {
@@ -71,29 +53,53 @@ a {
 }
 
 a:hover {
-    text-decoration: underline;
     color: #000;
+    text-decoration: underline;
 }
 
-/* =========================================
-   2. BOTÕES
-   ========================================= */
+ul {
+    list-style: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* =========================
+   2) COMPONENTES GERAIS
+   ========================= */
+.section-padding {
+    padding: 4rem 0;
+}
+
+.section-title {
+    font-size: 2.25rem;
+    color: #111;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+}
+
+/* Botões */
 .btn {
     display: inline-block;
     padding: 0.75rem 1.5rem;
     border-radius: 6px;
     font-weight: 700;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
     border: none;
     cursor: pointer;
 }
 
-/* Botão Primário (Amarelo) */
 .btn-primary {
     background-color: var(--primary-color);
-    color: var(--primary-text-on-color); 
+    color: var(--primary-text-on-color);
 }
+
 .btn-primary:hover {
     background-color: #e6ce30;
     color: #000;
@@ -102,28 +108,23 @@ a:hover {
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-/* Botão Secundário (Preto) */
 .btn-secondary {
-    background-color: #000000; 
-    color: #ffffff;
-    border: 1px solid #000000;
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    border: 1px solid var(--dark-color);
 }
+
 .btn-secondary:hover {
-    background-color: #333333;
-    border-color: #333333;
-    color: #ffffff;
-    text-decoration: none;
+    background-color: #333;
+    border-color: #333;
     transform: translateY(-2px);
+    color: #fff;
+    text-decoration: none;
 }
 
-.btn-sm {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-}
-
-/* =========================================
-   3. HEADER E NAVEGAÇÃO
-   ========================================= */
+/* =========================
+   3) HEADER E NAVEGAÇÃO
+   ========================= */
 .main-header {
     background-color: #f8f9fa;
     border-bottom: 1px solid var(--border-color);
@@ -136,10 +137,10 @@ a:hover {
 }
 
 .main-header .container {
+    height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80px;
 }
 
 .logo {
@@ -147,6 +148,7 @@ a:hover {
     font-weight: 800;
     color: #000;
 }
+
 .logo span {
     color: #d4b918;
 }
@@ -162,6 +164,7 @@ a:hover {
     font-weight: 600;
     padding: 0.5rem;
 }
+
 .main-nav a:hover,
 .main-nav a.active {
     color: #000;
@@ -182,33 +185,12 @@ a:hover {
     color: #000;
 }
 
-/* =========================================
-   4. LAYOUT GERAL E SEÇÕES
-   ========================================= */
-.section-padding {
-    padding: 4rem 0;
-}
-
-.section-title {
-    font-size: 2.25rem;
-    color: #111;
-    text-align: center;
-    margin-bottom: 2.5rem;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.4);
-}
-
-
+/* =========================
+   4) BANNER (INDEX)
+   ========================= */
 .banner {
-    
-    background: linear-gradient(rgba(242, 244, 246, 0.9), rgba(242, 244, 246, 0.8)), 
-                url('../img/banner-bg.jpg');
-    
-    background-size: cover;            
-    background-position: center center; 
-    background-repeat: no-repeat;
-    background-attachment: fixed;  
-    
-    padding: 8rem 0; 
+    background-color: rgba(242, 244, 246, 0.7);
+    padding: 6rem 0;
     text-align: center;
     border-bottom: 1px solid rgba(0,0,0,0.05);
 }
@@ -217,26 +199,24 @@ a:hover {
     font-size: 2.5rem;
     color: #111;
     margin-bottom: 1rem;
-    position: relative;
-    z-index: 1;
 }
 
 .banner p {
     font-size: 1.25rem;
-    color: #333; 
+    color: #444;
     max-width: 700px;
     margin: 0 auto;
-    font-weight: 600; 
-    position: relative;
-    z-index: 1;
+    font-weight: 500;
 }
 
-/* Painel de Indicadores (Stats) */
+/* =========================
+   5) PAINEL DE INDICADORES
+   ========================= */
 .stats-panel {
     background-color: var(--primary-color);
-    color: var(--primary-text-on-color); 
+    color: var(--primary-text-on-color);
     padding: 2rem 0;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: var(--box-shadow);
     border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
@@ -249,26 +229,22 @@ a:hover {
 }
 
 .stat-item h3 {
-    font-size: 3rem; 
+    font-size: 3rem;
     margin-bottom: 0.25rem;
-    color: #494848;
-    /* Fonte Lato (se importada no HTML), senão fallback */
-    font-family: 'Lato', sans-serif; 
-    font-weight: 900; 
-    letter-spacing: 0px; 
+    color: #000;
+    font-family: "Lato", sans-serif;
+    font-weight: 900;
 }
 
 .stat-item p {
     font-size: 1rem;
-    font-weight: 700; 
-    color: #000000;      
-    opacity: 1; 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    color: #000;
 }
 
-/* =========================================
-   5. RECURSOS (CARDS)
-   ========================================= */
+/* =========================
+   6) FEATURES / CARDS
+   ========================= */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -276,13 +252,13 @@ a:hover {
 }
 
 .feature-card {
-    background: var(--bg-content); 
+    background: var(--bg-content);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 2rem;
     text-align: center;
     box-shadow: var(--box-shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .feature-card:hover {
@@ -305,51 +281,37 @@ a:hover {
     color: #111;
 }
 
-/* =========================================
-   6. TABELAS (Pretas e Limpas)
-   ========================================= */
-.opportunities-section {
-    background-color: transparent;
+.feature-card p {
+    color: #444;
 }
 
-.table-search-wrapper {
-    margin-bottom: 1.5rem;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.table-search-wrapper #table-search-index {
-    padding: 0.75rem;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 1rem;
-    width: 300px;
-    background-color: var(--bg-content);
-}
-
+/* =========================
+   7) TABELAS (INDEX + OPORTUNIDADES)
+   ========================= */
 .responsive-table {
-    overflow-x: auto;
     width: 100%;
+    overflow-x: auto;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: var(--bg-content); 
-    box-shadow: var(--box-shadow);
+    background-color: var(--bg-content);
     border-radius: 8px;
     overflow: hidden;
+    box-shadow: var(--box-shadow);
 }
 
 th, td {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
 }
 
 thead th {
-    background-color: #000000; /* Cabeçalho Preto */
-    color: #ffffff;
+    background-color: #000;
+    color: #fff;
     font-weight: 700;
     text-transform: uppercase;
     font-size: 0.9rem;
@@ -357,10 +319,9 @@ thead th {
 }
 
 tbody tr:hover {
-    background-color: #e2e4e6; 
+    background-color: #e2e4e6;
 }
 
-/* Badges de Status */
 .status {
     padding: 0.25rem 0.75rem;
     border-radius: 15px;
@@ -369,18 +330,39 @@ tbody tr:hover {
     text-transform: uppercase;
     display: inline-block;
 }
+
 .status-aberto {
     background-color: #d1fae5;
-    color: #065f46; 
+    color: #065f46;
 }
+
 .status-encerrado {
     background-color: #fee2e2;
     color: #991b1b;
 }
 
-/* =========================================
-   7. SEÇÃO DESENVOLVIMENTO (TCC)
-   ========================================= */
+/* Barra de filtros (oportunidades.html) */
+.filters-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    justify-content: space-between;
+}
+
+.filters-bar input,
+.filters-bar select {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: var(--bg-content);
+    min-width: 220px;
+}
+
+/* =========================
+   8) CARDS DESENVOLVIMENTO
+   ========================= */
 .dev-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -393,7 +375,7 @@ tbody tr:hover {
     border-radius: 8px;
     border: 1px solid var(--border-color);
     box-shadow: var(--box-shadow);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease;
     height: 100%;
 }
 
@@ -403,12 +385,11 @@ tbody tr:hover {
 }
 
 .dev-card h3 {
-    font-family: 'Lato', sans-serif;
+    font-family: "Lato", sans-serif;
     font-size: 1.5rem;
     color: #000;
     margin-bottom: 1rem;
-    border: none; 
-    padding-bottom: 0;
+    font-weight: 900;
 }
 
 .dev-card p {
@@ -418,9 +399,9 @@ tbody tr:hover {
     text-align: justify;
 }
 
-/* =========================================
-   8. FAQ (Acordeão)
-   ========================================= */
+/* =========================
+   9) FAQ
+   ========================= */
 .faq-item {
     border: 1px solid var(--border-color);
     border-radius: 8px;
@@ -467,17 +448,17 @@ tbody tr:hover {
 .faq-item.active .faq-item-header {
     border-left: 5px solid var(--primary-color);
 }
+
 .faq-item.active .faq-item-header i {
     transform: rotate(180deg);
     color: #b3a000;
 }
 
-/* =========================================
-   9. FORMULÁRIOS
-   ========================================= */
-.contact-section { background-color: transparent; }
-
-.contact-form {
+/* =========================
+   10) FORMULÁRIOS
+   ========================= */
+.contact-form,
+.login-box {
     max-width: 700px;
     margin: 0 auto;
     background-color: var(--bg-content);
@@ -487,7 +468,9 @@ tbody tr:hover {
     border-top: 5px solid var(--primary-color);
 }
 
-.form-group { margin-bottom: 1.5rem; }
+.form-group {
+    margin-bottom: 1.5rem;
+}
 
 .form-group label {
     display: block;
@@ -507,18 +490,40 @@ tbody tr:hover {
     background-color: #fff;
 }
 
-#form-message {
-    text-align: center;
-    margin-top: 1rem;
-    font-weight: 600;
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
 }
 
-/* =========================================
-   10. RODAPÉ (Preto)
-   ========================================= */
+/* login.html específicos */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 1.5rem;
+}
+
+.login-title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    font-family: "Lato", sans-serif;
+    color: #111;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.login-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* =========================
+   11) FOOTER
+   ========================= */
 .main-footer {
-    background-color: #000000; 
-    color: #ffffff;
+    background-color: #000;
+    color: #fff;
     padding: 3rem 0;
     margin-top: 4rem;
     border-top: 5px solid var(--primary-color);
@@ -533,9 +538,10 @@ tbody tr:hover {
 .footer-logo {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #ffffff;
+    color: #fff;
     margin-bottom: 1rem;
 }
+
 .footer-logo span {
     color: var(--primary-color);
 }
@@ -543,33 +549,11 @@ tbody tr:hover {
 .footer-about p {
     margin-bottom: 1rem;
     max-width: 350px;
-    color: #cccccc;
-}
-
-
-.footer-logo-etec {
-    display: block;          
-    text-align: left;        
-    
-    height: 45px;            
-    width: auto;             
-    
-    margin-top: 1.5rem;      
-    
-    background-color: transparent;
-    border: none;
-    padding: 0;
-}
-
-.footer-logo-etec img {
-    height: 100%;            
-    width: auto;             
-    object-fit: contain;     
-    display: block;        
+    color: #ccc;
 }
 
 .footer-links h4 {
-    color: #ffffff;
+    color: #fff;
     font-size: 1.1rem;
     margin-bottom: 1rem;
     border-bottom: 2px solid var(--primary-color);
@@ -582,9 +566,10 @@ tbody tr:hover {
 }
 
 .footer-links a {
-    color: #ffffff;
+    color: #fff;
     font-weight: normal;
 }
+
 .footer-links a:hover {
     color: var(--primary-color);
     text-decoration: none;
@@ -601,75 +586,59 @@ tbody tr:hover {
     color: #999;
 }
 
-/* =========================================
-   11. PÁGINAS ESPECÍFICAS
-   ========================================= */
-
-/* LOGIN (login.html) */
-body.login-body {
-    padding-top: 0;
-    /* Gradiente Amarelo -> Preto */
-    background: linear-gradient(135deg, #f5dd42 0%, #000000 100%);
-    display: flex;
+/* =========================
+   12) MODAL (SUCESSO/ERRO)
+   ========================= */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 99999;
+    display: none;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
 }
 
-.login-container {
-    background-color: var(--bg-content);
-    padding: 3rem;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    width: 100%;
-    max-width: 450px;
-    text-align: center;
-}
-
-.login-links {
-    margin-top: 1.5rem;
+.modal-overlay.is-visible,
+.modal-overlay.active {
     display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
 }
 
-/* OPORTUNIDADES (oportunidades.html) */
-.page-header {
-    padding: 3rem 0;
-    background-color: rgba(242, 244, 246, 0.8);
+.modal-box,
+.custom-modal-box {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 420px;
     text-align: center;
-    margin-bottom: 3rem;
-    border-bottom: 1px solid var(--border-color);
-}
-.page-header h1 {
-    color: #111;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border-top: 6px solid #000; /* corrigido */
+    animation: dropIn 0.3s ease;
 }
 
-.filters-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background-color: var(--bg-content);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: var(--box-shadow);
-}
-.filters-bar .form-group {
-    flex: 1;
-    margin-bottom: 0;
-    min-width: 200px;
+@keyframes dropIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
-/* =========================================
-   12. RESPONSIVIDADE (MOBILE)
-   ========================================= */
+.modal-icon i,
+.custom-modal-icon {
+    font-size: 4rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+}
+
+/* =========================
+   13) RESPONSIVIDADE
+   ========================= */
 @media (max-width: 992px) {
-    .features-grid, 
+    .features-grid,
     .dev-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
     .footer-grid {
         grid-template-columns: 1fr 1fr;
     }
@@ -679,11 +648,12 @@ body.login-body {
     body {
         padding-top: 70px;
     }
+
     .main-header .container {
         height: 70px;
     }
-    
-    /* Menu Mobile */
+
+    /* Menu mobile */
     .main-nav {
         display: none;
         position: absolute;
@@ -693,27 +663,31 @@ body.login-body {
         background-color: var(--bg-content);
         border-bottom: 1px solid var(--border-color);
     }
+
     .main-nav.active {
         display: block;
     }
+
     .main-nav ul {
         flex-direction: column;
         align-items: stretch;
         gap: 0;
     }
+
     .main-nav a {
         padding: 1rem 1.5rem;
         border-bottom: 1px solid var(--border-color);
     }
-    
+
     .header-buttons {
         display: none;
     }
+
     .hamburger-menu {
         display: block;
     }
-    
-    /* Ajustes de Grid para Celular */
+
+    /* Grids viram coluna */
     .stats-grid,
     .features-grid,
     .dev-grid,
@@ -723,66 +697,22 @@ body.login-body {
         flex-direction: column;
     }
 
-    /* =========================================
-   13. MODAL DE SUCESSO (POPUP)
-   ========================================= */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Fundo escuro transparente */
-    display: none; /* Começa oculto */
-    justify-content: center;
-    align-items: center;
-    z-index: 2000; /* Acima do header fixo */
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    .filters-bar input,
+    .filters-bar select {
+        width: 100%;
+    }
 }
 
-.modal-overlay.active {
-    display: flex;
-    opacity: 1;
-}
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 1.8rem;
+    }
 
-.modal-box {
-    background-color: #fff;
-    padding: 2.5rem;
-    border-radius: 8px;
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
-    border-top: 5px solid var(--secondary-color); /* Detalhe verde de sucesso */
-}
+    .banner h1 {
+        font-size: 2rem;
+    }
 
-.modal-overlay.active .modal-box {
-    transform: translateY(0);
-}
-
-.modal-icon i {
-    font-size: 4rem;
-    color: var(--secondary-color); /* Verde Sucesso */
-    margin-bottom: 1rem;
-}
-
-.modal-box h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: #111;
-    font-family: 'Lato', sans-serif;
-    font-weight: 900;
-}
-
-.modal-box p {
-    color: #555;
-    margin-bottom: 1.5rem;
-}
-
-.modal-box button {
-    width: 100%;
-}
+    .stat-item h3 {
+        font-size: 2.4rem;
+    }
 }

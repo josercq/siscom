@@ -1,3 +1,6 @@
+// =========================================================
+// SISCOM - jsmain.js (2025-12-06 21:26)
+// =========================================================
 document.addEventListener("DOMContentLoaded", () => {
     
     // =========================================================
@@ -28,81 +31,86 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================================
     const faqHeaders = document.querySelectorAll(".faq-item-header");
 
-    faqHeaders.forEach(header => {
-        header.addEventListener("click", () => {
-            const currentItem = header.parentElement;
-            const currentBody = currentItem.querySelector(".faq-item-body");
+    if (faqHeaders.length > 0) {
+        faqHeaders.forEach(header => {
+            header.addEventListener("click", () => {
+                const currentItem = header.parentElement;
+                const currentBody = currentItem ? currentItem.querySelector(".faq-item-body") : null;
 
-            const isOpen = currentItem.classList.contains("active");
+                const isOpen = currentItem && currentItem.classList.contains("active");
 
-            // Fecha todos os outros
-            document.querySelectorAll(".faq-item").forEach(item => {
-                item.classList.remove("active");
-                const body = item.querySelector(".faq-item-body");
-                if(body) body.style.maxHeight = null; 
+                // Fecha todos os outros
+                document.querySelectorAll(".faq-item").forEach(item => {
+                    item.classList.remove("active");
+                    const body = item.querySelector(".faq-item-body");
+                    if (body) body.style.maxHeight = null; 
+                });
+
+                // Abre o atual se não estava aberto
+                if (!isOpen && currentItem && currentBody) {
+                    currentItem.classList.add("active");
+                    currentBody.style.maxHeight = currentBody.scrollHeight + "px";
+                }
             });
-
-            // Abre o atual se não estava aberto
-            if (!isOpen) {
-                currentItem.classList.add("active");
-                currentBody.style.maxHeight = currentBody.scrollHeight + "px";
-            }
         });
-    });
+    }
 
     // =========================================================
-    // 3. FORMULÁRIO DE CONTATO COM POPUP (CORRIGIDO)
+    // 3. FORMULÁRIO DE CONTATO COM POPUP
     // =========================================================
     const contactForm = document.getElementById("contact-form");
-    const modal = document.getElementById("success-modal");
-    const closeModalBtn = document.getElementById("close-modal-btn");
+
+    // Aceita tanto o modal antigo quanto o atual
+    const modal =
+        document.getElementById("success-modal") ||
+        document.getElementById("custom-modal-overlay");
+
+    const closeModalBtn =
+        document.getElementById("close-modal-btn") ||
+        document.getElementById("custom-modal-close");
+
     const formMessage = document.getElementById("form-message");
 
-    // Verificamos se o formulário E o modal existem na página antes de rodar
     if (contactForm && modal) {
-        
+
         contactForm.addEventListener("submit", function(e) {
-            // ESTA LINHA É A MAIS IMPORTANTE: Impede a página de recarregar
             e.preventDefault(); 
             
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             const originalText = submitBtn ? submitBtn.textContent : "Enviar";
             
-            // Feedback visual no botão
-            if(submitBtn) {
+            if (submitBtn) {
                 submitBtn.textContent = "Enviando...";
                 submitBtn.disabled = true;
             }
 
-            // Simula um tempo de envio de 1 segundo
             setTimeout(() => {
-                // Abre o Modal
-                modal.classList.add("active"); // Adiciona a classe que muda o display para flex
+                // Mostra modal compatível com as duas classes possíveis
+                modal.classList.add("active");
+                modal.classList.add("is-visible");
                 
-                // Limpa o formulário
                 contactForm.reset();
                 
-                // Restaura o botão
-                if(submitBtn) {
+                if (submitBtn) {
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
                 }
-                if(formMessage) formMessage.textContent = "";
+                if (formMessage) formMessage.textContent = "";
 
             }, 1000);
         });
 
-        // Lógica para fechar o modal
         if (closeModalBtn) {
             closeModalBtn.addEventListener("click", () => {
                 modal.classList.remove("active");
+                modal.classList.remove("is-visible");
             });
         }
 
-        // Fechar clicando fora da caixa
         modal.addEventListener("click", (e) => {
             if (e.target === modal) {
                 modal.classList.remove("active");
+                modal.classList.remove("is-visible");
             }
         });
     }
@@ -140,14 +148,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const statusCellText = statusCell ? statusCell.textContent.toLowerCase() : "";
 
                 const matchesText = allText.includes(textValue);
-                const matchesStatus = (statusValue === "todos" || statusValue === "") ? true : statusCellText.includes(statusValue);
-                const matchesSchool = (schoolValue === "todas" || schoolValue === "") ? true : schoolCellText.includes(schoolValue);
+                const matchesStatus = (statusValue === "todos" || statusValue === "") 
+                    ? true 
+                    : statusCellText.includes(statusValue);
 
-                if (matchesText && matchesStatus && matchesSchool) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
+                const matchesSchool = (schoolValue === "todas" || schoolValue === "") 
+                    ? true 
+                    : schoolCellText.includes(schoolValue);
+
+                row.style.display = (matchesText && matchesStatus && matchesSchool) ? "" : "none";
             });
         }
 

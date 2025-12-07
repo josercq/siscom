@@ -157,6 +157,10 @@ ul { list-style: none; }
    ========================= */
 .banner {
     background-color: rgba(242, 244, 246, 0.7);
+    background-image: url('../img/banner-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     padding: 6rem 0;
     text-align: center;
     border-bottom: 1px solid rgba(0,0,0,0.05);

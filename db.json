@@ -1,0 +1,31 @@
+{
+  "users": [
+    {
+      "id": "u-apm-1",
+      "name": "APM Escola Exemplo",
+      "email": "apm@example.com",
+      "passwordHash": "$2a$10$uGZzqvW5G6b5oXvT5QY3Q.4ZKc3gYg8c0b0Z8qk6YyH6K8FZr9y1G", 
+      "role": "apm"
+    },
+    {
+      "id": "u-forn-1",
+      "name": "Fornecedor Exemplo",
+      "email": "fornecedor@example.com",
+      "passwordHash": "$2a$10$uGZzqvW5G6b5oXvT5QY3Q.4ZKc3gYg8c0b0Z8qk6YyH6K8FZr9y1G",
+      "role": "fornecedor"
+    }
+  ],
+  "oportunidades": [
+    {
+      "id": "op-1",
+      "title": "Aquisição de materiais de limpeza",
+      "description": "Materiais de limpeza para redes de ensino",
+      "deadline": "2025-12-30",
+      "school": "UME Profª Helena Duarte",
+      "status": "aberto",
+      "createdBy": "u-apm-1"
+    }
+  ],
+  "propostas": [],
+  "history": []
+}

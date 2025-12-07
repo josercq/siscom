@@ -1,6 +1,6 @@
 <!-- =========================================================
-	 SISCOM - index.html (2025-12-06 21:26)
-	 ========================================================= -->
+     SISCOM - index.html (2025-12-06 21:51)
+     ========================================================= -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -17,174 +17,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- =========================================================
-         ESTILOS LOCAIS DA PÁGINA (INLINE)         
+         CSS GLOBAL
          ========================================================= -->
-    <style>
-        /* =========================
-           1) VARIÁVEIS GLOBAIS + RESET
-           ========================= */
-        :root {
-            --primary-color: #f5dd42; /* Amarelo */
-            --primary-text-on-color: #333333; 
-            --secondary-color: #10B981; 
-            --dark-color: #2c3e50;
-            --light-color: #ffffff; 
-            --bg-content: #f2f4f6;  /* Cinza Legível */
-            --bg-body-gradient-start: #e0e0e0;
-            --bg-body-gradient-end: #cfcfcf;
-            --text-color: #333;
-            --text-light: #555;
-            --border-color: #d1d5db;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; height: 100%; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: var(--text-color);
-            line-height: 1.6;
-            padding-top: 80px;
-            background: linear-gradient(180deg, var(--bg-body-gradient-start) 0%, var(--bg-body-gradient-end) 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-        img { max-width: 100%; height: auto; }
-        a { color: #b3a000; text-decoration: none; font-weight: 600; }
-        a:hover { text-decoration: underline; color: #000; }
-        ul { list-style: none; }
-
-        /* =========================
-           2) COMPONENTES (BOTÕES / TÍTULOS)
-           ========================= */
-        .btn { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 700; text-align: center; transition: all 0.3s ease; border: none; cursor: pointer; }
-        .btn-primary { background-color: var(--primary-color); color: var(--primary-text-on-color); }
-        .btn-primary:hover { background-color: #e6ce30; color: #000; text-decoration: none; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
-        .btn-secondary { background-color: #000000; color: #ffffff; border: 1px solid #000000; }
-        .btn-secondary:hover { background-color: #333333; border-color: #333333; color: #ffffff; text-decoration: none; transform: translateY(-2px); }
-
-        .section-padding { padding: 4rem 0; }
-        .section-title { font-size: 2.25rem; color: #111; text-align: center; margin-bottom: 2.5rem; text-shadow: 0 1px 0 rgba(255,255,255,0.4); }
-
-        /* =========================
-           3) HEADER FIXO + NAV
-           ========================= */
-        .main-header { background-color: #f8f9fa; border-bottom: 1px solid var(--border-color); box-shadow: var(--box-shadow); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; }
-        .main-header .container { display: flex; justify-content: space-between; align-items: center; height: 80px; }
-        .logo { font-size: 1.75rem; font-weight: 800; color: #000; }
-        .logo span { color: #d4b918; }
-        .main-nav ul { display: flex; align-items: center; gap: 1.5rem; }
-        .main-nav a { color: #444; font-weight: 600; padding: 0.5rem; }
-        .main-nav a:hover, .main-nav a.active { color: #000; border-bottom: 3px solid var(--primary-color); }
-        .header-buttons { display: flex; gap: 0.5rem; }
-        .hamburger-menu { display: none; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: #000; }
-
-        /* =========================
-           4) BANNER / HERO
-           ========================= */
-        .banner { background-color: rgba(242, 244, 246, 0.7); padding: 6rem 0; text-align: center; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .banner h1 { font-size: 2.5rem; color: #111; margin-bottom: 1rem; }
-        .banner p { font-size: 1.25rem; color: #444; max-width: 700px; margin: 0 auto; font-weight: 500; }
-
-        /* =========================
-           5) STATS / INDICADORES
-           ========================= */
-        .stats-panel { background-color: var(--primary-color); color: var(--primary-text-on-color); padding: 2rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-bottom: 1px solid rgba(0,0,0,0.1); }
-        .stats-grid { display: flex; flex-wrap: wrap; justify-content: space-around; text-align: center; gap: 1.5rem; }
-        .stat-item h3 { font-size: 3rem; margin-bottom: 0.25rem; color: #000000; font-family: 'Lato', sans-serif; font-weight: 900; letter-spacing: 0px; }
-        .stat-item p { font-size: 1rem; font-weight: 700; color: #000000; opacity: 1; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-
-        /* =========================
-           6) FEATURES / BENEFÍCIOS
-           ========================= */
-        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-        .feature-card { background: var(--bg-content); border: 1px solid var(--border-color); border-radius: 8px; padding: 2rem; text-align: center; box-shadow: var(--box-shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); border-color: var(--primary-color); background: #fff; }
-        .feature-card i { font-size: 3rem; color: var(--primary-color); text-shadow: 1px 1px 0 rgba(0,0,0,0.2); margin-bottom: 1.5rem; }
-        .feature-card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: #111; }
-
-        /* =========================
-           7) TABELA DE OPORTUNIDADES (HOME)
-           ========================= */
-        .opportunities-section { background-color: transparent; }
-        .table-search-wrapper { margin-bottom: 1.5rem; display: flex; justify-content: flex-end; }
-        .table-search-wrapper #table-search-index { padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem; width: 300px; background-color: var(--bg-content); }
-        .responsive-table { overflow-x: auto; width: 100%; }
-        table { width: 100%; border-collapse: collapse; background-color: var(--bg-content); box-shadow: var(--box-shadow); border-radius: 8px; overflow: hidden; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
-        thead th { background-color: #000000; color: #ffffff; font-weight: 700; text-transform: uppercase; font-size: 0.9rem; border-bottom: none; }
-        tbody tr:hover { background-color: #e2e4e6; }
-        .status { padding: 0.25rem 0.75rem; border-radius: 15px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; display: inline-block; }
-        .status-aberto { background-color: #d1fae5; color: #065f46; }
-        .status-encerrado { background-color: #fee2e2; color: #991b1b; }
-
-        /* =========================
-           8) DESENVOLVIMENTO (CARDS)
-           ========================= */
-        .dev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-        .dev-card { background-color: var(--bg-content); padding: 2.5rem; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: var(--box-shadow); transition: transform 0.3s ease; height: 100%; }
-        .dev-card:hover { transform: translateY(-5px); border-color: var(--primary-color); }
-        .dev-card h3 { font-family: 'Lato', sans-serif; font-size: 1.5rem; color: #000; margin-bottom: 1rem; border: none; padding-bottom: 0; }
-        .dev-card p { color: #444; font-size: 1rem; line-height: 1.8; text-align: justify; }
-
-        /* =========================
-           9) FAQ
-           ========================= */
-        .faq-item { border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 1rem; overflow: hidden; background-color: var(--bg-content); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .faq-item-header { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; cursor: pointer; background-color: var(--bg-content); font-weight: 700; color: #222; user-select: none; }
-        .faq-item-header:hover { background-color: #e8eaec; }
-        .faq-item-header i { transition: transform 0.3s ease; }
-        .faq-item-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background-color: var(--bg-content); }
-        .faq-item-body-content { padding: 1.5rem; border-top: 1px solid var(--border-color); color: #444; background-color: #ebeded; }
-        .faq-item.active .faq-item-header { border-left: 5px solid var(--primary-color); }
-        .faq-item.active .faq-item-header i { transform: rotate(180deg); color: #b3a000; }
-
-        /* =========================
-           10) FORMULÁRIO DE CONTATO
-           ========================= */
-        .contact-section { background-color: transparent; }
-        .contact-form { max-width: 700px; margin: 0 auto; background-color: var(--bg-content); padding: 2.5rem; border-radius: 8px; box-shadow: var(--box-shadow); border-top: 5px solid var(--primary-color); }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #222; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; background-color: #fff; }
-        #form-message { text-align: center; margin-top: 1rem; font-weight: 600; }
-
-        /* =========================
-           11) FOOTER
-           ========================= */
-        .main-footer { background-color: #000000; color: #ffffff; padding: 3rem 0; margin-top: 4rem; border-top: 5px solid var(--primary-color); }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; }
-        .footer-logo { font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-bottom: 1rem; }
-        .footer-logo span { color: var(--primary-color); }
-        .footer-about p { margin-bottom: 1rem; max-width: 350px; color: #cccccc; }
-        .footer-logo-prefeitura { display: block; width: 150px; height: 60px; background-color: #222; color: white; text-align: center; line-height: 60px; border-radius: 4px; font-size: 0.8rem; margin-top: 1rem; border: 1px solid #444; }
-        .footer-links h4 { color: #ffffff; font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 5px; }
-        .footer-links ul li { margin-bottom: 0.75rem; }
-        .footer-links a { color: #ffffff; font-weight: normal; }
-        .footer-links a:hover { color: var(--primary-color); text-decoration: none; padding-left: 5px; transition: padding 0.2s; }
-        .footer-bottom { text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #333; font-size: 0.9rem; color: #999; }
-
-        /* =========================
-           12) RESPONSIVIDADE
-           ========================= */
-        @media (max-width: 992px) {
-            .features-grid, .dev-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 768px) {
-            body { padding-top: 70px; }
-            .main-header .container { height: 70px; }
-            .main-nav { display: none; position: absolute; top: 70px; left: 0; width: 100%; background-color: var(--bg-content); border-bottom: 1px solid var(--border-color); }
-            .main-nav.active { display: block; }
-            .header-buttons { display: none; }
-            .hamburger-menu { display: block; }
-            .stats-grid, .features-grid, .dev-grid, .footer-grid, .filters-bar { display: flex; flex-direction: column; }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
     <!-- =========================================================
@@ -495,80 +332,6 @@
     <script src="js/main.js"></script>
 
     <!-- =========================================================
-         ESTILOS DO MODAL INLINE         
-         ========================================================= -->
-    <style>
-        #custom-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 99999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #custom-modal-overlay.is-visible {
-            display: flex !important;
-        }
-
-        .custom-modal-box {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            border-top: 6px solid #000000; 
-            position: relative;
-            animation: dropIn 0.3s ease;
-        }
-
-        @keyframes dropIn {
-            from { transform: translateY(-20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .custom-modal-icon {
-            font-size: 4rem;
-            color: #f5dd42; 
-            margin-bottom: 1rem;
-            text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
-        }
-
-        .custom-modal-box h3 {
-            color: #333;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            font-family: sans-serif;
-        }
-
-        .custom-modal-box p {
-            color: #666;
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
-        }
-
-        .custom-close-btn {
-            background-color: #333;
-            color: #fff;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .custom-close-btn:hover {
-            background-color: #000;
-        }
-    </style>
-
-    <!-- =========================================================
          MODAL DE FEEDBACK (SUCESSO)
          ========================================================= -->
     <div id="custom-modal-overlay">
@@ -583,7 +346,7 @@
     </div>
 
     <!-- =========================================================
-         SCRIPT MODAL DE CONTATO         
+         SCRIPT MODAL DE CONTATO
          ========================================================= -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -635,7 +398,7 @@
     </script>
 
     <!-- =========================================================
-         SCRIPT ESPECÍFICO DO FAQ (ACORDEÃO)         
+         SCRIPT ESPECÍFICO DO FAQ (ACORDEÃO)
          ========================================================= -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -667,5 +430,6 @@
             }
         });
     </script>
+
 </body>
 </html>

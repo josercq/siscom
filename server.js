@@ -173,12 +173,133 @@ app.post('/api/oportunidades/:id/choose-proposal', authMiddleware, requireRole('
   } catch(e){ console.error(e); res.status(500).json({ message: 'Erro interno' }); }
 });
 
+// APM respondendo a uma proposta (aceitar / recusar)
+app.post('/api/propostas/:id/respond', authMiddleware, requireRole('apm'), (req,res)=>{
+  try {
+    const { action } = req.body; // 'accept' or 'reject'
+    if (!action || (action !== 'accept' && action !== 'reject')) return res.status(400).json({ message: 'Ação inválida' });
+    const db = readDB();
+    const prop = db.propostas.find(p=>p.id === req.params.id);
+    if (!prop) return res.status(404).json({ message: 'Proposta não encontrada' });
+    prop.status = (action === 'accept') ? 'accepted' : 'rejected';
+
+    // se aceitar, marcar oportunidade como em execução e set chosenProposal
+    const op = db.oportunidades.find(o=>o.id === prop.opportunityId);
+    if (action === 'accept' && op) {
+      op.chosenProposal = prop.id;
+      op.status = 'em_execucao';
+    }
+
+    addHistory({ type: 'respond_proposta', userId: req.user.id, propostaId: prop.id, action });
+    writeDB(db);
+    res.json({ message: 'Resposta registrada', proposal: prop, oportunidade: op });
+  } catch(e){ console.error(e); res.status(500).json({ message: 'Erro interno' }); }
+});
+
 app.get('/api/history', authMiddleware, (req,res)=>{
   const db = readDB();
   res.json(db.history || []);
 });
 
+// -------------------- FORNECEDORES CRUD (APM admin) --------------------
+// list all fornecedores (APM only)
+app.get('/api/admin/fornecedores', authMiddleware, requireRole('apm'), (req,res)=>{
+  try {
+    const db = readDB();
+    const suppliers = db.users.filter(u=>u.role === 'fornecedor');
+    res.json(suppliers.map(u=>({ id:u.id, name:u.name, email:u.email, role:u.role }))); 
+  } catch(e){ console.error(e); res.status(500).json({ message: 'Erro interno' }); }
+});
+
+// get single fornecedor
+app.get('/api/admin/fornecedores/:id', authMiddleware, requireRole('apm'), (req,res)=>{
+  try {
+    const db = readDB();
+    const u = db.users.find(x=>x.id === req.params.id && x.role === 'fornecedor');
+    if (!u) return res.status(404).json({ message: 'Fornecedor não encontrado' });
+    res.json({ id:u.id, name:u.name, email:u.email, role:u.role });
+  } catch(e){ console.error(e); res.status(500).json({ message: 'Erro interno' }); }
+});
+
+// create fornecedor (APM)
+app.post('/api/admin/fornecedores', authMiddleware, requireRole('apm'), (req,res)=>{
+  try {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) return res.status(400).json({ message: 'Dados incompletos' });
+    const db = readDB();
+    if (db.users.find(u=>u.email === email)) return res.status(409).json({ message: 'Email já cadastrado' });
+    const id = 'u-forn-' + Date.now();
+    const passwordHash = bcrypt.hashSync(password, 10);
+    const user = { id, name, email, passwordHash, role: 'fornecedor' };
+    db.users.push(user);
+    addHistory({ type: 'admin_create_fornecedor', userId: req.user.id, fornecedorId: id });
+    writeDB(db);
+    res.status(201).json({ id: user.id, name: user.name, email: user.email });
+  } catch(e){ console.error(e); res.status(500).json({ message: 'Erro interno' }); }
+});
+
+// update fornecedor (APM)
+app.put('/api/admin/fornecedores/:id', authMiddleware, requireRole('apm'), (req,res)=>{
+  try {
+    const db = readDB();
+    const u = db.users.find(x=>x.id === req.params.id && x.role === 'fornecedor');
+    if (!u) return res.status(404).json({ message: 'Fornecedor não encontrado' });
+    const { name, email, password } = req.body;
+    if (name) u.name = name;
+    if (email) u.email = email;
+    if (password) u.passwordHash = bcrypt.hashSync(password, 10);
+    addHistory({ type: 'admin_update_fornecedor', userId: req.user.id, fornecedorId: u.id });
+    writeDB(db);
+    res.json({ id:u.id, name:u.name, email:u.email });
+  } catch(e){ console.error(e); res.status(500).json({ message: 'Erro interno' }); }
+});
+
+// delete fornecedor (APM)
+app.delete('/api/admin/fornecedores/:id', authMiddleware, requireRole('apm'), (req,res)=>{
+  try {
+    const db = readDB();
+    const idx = db.users.findIndex(x=>x.id === req.params.id && x.role === 'fornecedor');
+    if (idx === -1) return res.status(404).json({ message: 'Fornecedor não encontrado' });
+    const removed = db.users.splice(idx,1)[0];
+    // remove related propostas
+    db.propostas = db.propostas.filter(p=>p.supplierId !== removed.id);
+    addHistory({ type: 'admin_delete_fornecedor', userId: req.user.id, fornecedorId: removed.id });
+    writeDB(db);
+    res.json({ message: 'Fornecedor removido' });
+  } catch(e){ console.error(e); res.status(500).json({ message: 'Erro interno' }); }
+});
+
 // Fallback - serve static files by express.static above
+
+// On startup: ensure APM and Fornecedor passwords are set to requested values
+function ensureDefaultPasswords(){
+  try {
+    const db = readDB();
+    let changed = false;
+    // find an APM user and a Fornecedor user (by role)
+    const apmUser = db.users.find(u=>u.role === 'apm');
+    const fornUser = db.users.find(u=>u.role === 'fornecedor');
+    if (apmUser) {
+      const desired = 'apm12345';
+      if (!bcrypt.compareSync(desired, apmUser.passwordHash)) {
+        apmUser.passwordHash = bcrypt.hashSync(desired, 10);
+        changed = true;
+        console.log('APM password updated to requested value (hashed)');
+      }
+    }
+    if (fornUser) {
+      const desired = 'fornecedor12345';
+      if (!bcrypt.compareSync(desired, fornUser.passwordHash)) {
+        fornUser.passwordHash = bcrypt.hashSync(desired, 10);
+        changed = true;
+        console.log('Fornecedor password updated to requested value (hashed)');
+      }
+    }
+    if (changed) writeDB(db);
+  } catch (e) { console.error('Error ensuring default passwords', e); }
+}
+
+ensureDefaultPasswords();
 
 const port = process.env.PORT || 3000;
 app.listen(port, ()=> console.log('SISCOM backend started on http://localhost:' + port));

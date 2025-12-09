@@ -708,3 +708,236 @@ tbody tr:hover { background-color: #e2e4e6; }
 
     .stat-item h3 { font-size: 2.4rem; }
 }
+
+/* =========================================================
+   ESTILOS DE USUÁRIO LOGADO (Atualizado: Preto e Amarelo)
+   ========================================================= */
+
+.user-logged-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #fff; /* Fundo branco para limpar o visual */
+    padding: 8px 15px;
+    border-radius: 50px;
+    border: 2px solid #000; /* Borda preta para destacar */
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.2;
+}
+
+.user-role {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #666;
+    font-weight: 700;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #000; /* Nome preto */
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    
+    /* MUDANÇA: Fundo Amarelo e Ícone Preto para todos */
+    background-color: #FFC107 !important; 
+    color: #1a1a1a !important;            
+    border: 1px solid #e0a800; /* Borda sutil no amarelo */
+}
+
+/* Removemos as cores específicas de azul/verde para unificar no tema */
+.user-avatar.fornecedor,
+.user-avatar.apm {
+    background-color: #FFC107;
+}
+
+.btn-logout {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 5px;
+    transition: transform 0.2s, color 0.2s;
+    
+    /* MUDANÇA: Cor Preta */
+    color: #000; 
+    font-size: 1.3rem;
+}
+
+.btn-logout:hover {
+    color: #333; /* Cinza escuro no hover */
+    transform: scale(1.1); /* Leve aumento ao passar o mouse */
+}
+
+/* Ajuste Responsivo */
+@media (max-width: 768px) {
+    .user-logged-area {
+        margin-top: 15px;
+        justify-content: center;
+        width: 100%;
+        border: 1px solid #e0e0e0; /* Borda mais leve no mobile */
+    }
+    .user-info {
+        align-items: flex-start;
+    }
+}
+
+/* =========================================================
+   ESTILOS DOS CARDS (GLOBAL - PARA OPORTUNIDADES E INDEX)
+   ========================================================= */
+
+.opportunities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.opportunity-card {
+    background-color: #fff;
+    border: 2px solid #FFC107; /* Borda Amarela */
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.opportunity-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.card-icon {
+    background-color: #FFC107;
+    color: #1a1a1a;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-left: 10px;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    line-height: 1.4;
+    margin: 0;
+    flex: 1;
+}
+
+.card-school {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.card-location {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.card-description {
+    font-size: 0.95rem;
+    color: #444;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    gap: 10px;
+}
+
+.badge-expiry {
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-expiry.closed {
+    background-color: #999;
+}
+
+/* Badge usada quando uma proposta já foi enviada (marcação para fornecedor) */
+.badge-status-sent {
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-block;
+    margin-top: 8px;
+}
+
+.btn-card-action {
+    color: #1a1a1a;
+    background: #fff;
+    border: 1px solid #1a1a1a;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-card-action:hover {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+.btn-card-action.disabled {
+    color: #999;
+    border-color: #ccc;
+    cursor: not-allowed;
+    background-color: #f9f9f9;
+}

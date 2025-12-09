@@ -1,6 +1,3 @@
-<!-- =========================================================
-     SISCOM - index.html (2025-12-06 23:24)
-     ========================================================= -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -8,91 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SISCOM – Sistema de Gestão de Compras Escolares</title>
     
-    <!-- =========================================================
-         FONTES E ÍCONES (CDN)
-         ========================================================= -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <!-- =========================================================
-         CSS GLOBAL
-         ========================================================= -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <!-- =========================================================
-         HEADER FIXO COM LOGO, NAV E CTA
-         ========================================================= -->
-    <header class="main-header">
-        <div class="container">
-            <a href="index.html" class="logo">SISCOM<span>.</span></a>
-            
-            <nav class="main-nav" id="main-nav">
-                <ul>
-                    <li><a href="#features">Funcionalidades</a></li>
-                    <li><a href="oportunidades.html">Painel de Oportunidades</a></li>
-                    <li><a href="#desenvolvimento">Desenvolvimento</a></li>
-                    <li><a href="#faq">FAQ</a></li>
-                </ul>
-            </nav>
-
-            <div class="header-buttons">
-                <a href="#contact" class="btn btn-primary">Seja um Fornecedor</a>
-                <a href="login.html" class="btn btn-secondary">Entrar no Sistema</a>
-            </div>
-
-            <!-- Botão hamburger visível apenas em mobile -->
-            <button class="hamburger-menu" id="hamburger-menu" aria-label="Abrir menu">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </header>
+    <div id="site-header"></div>
 
     <main>
-
-        <!-- =========================================================
-             SEÇÃO HERO / BANNER PRINCIPAL
-             ========================================================= -->
-        <section class="banner" style="background: linear-gradient(rgba(242, 244, 246, 0.7), rgba(242, 244, 246, 0.8)), url('img/banner-bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+        <section class="banner" style="background: linear-gradient(rgba(242, 244, 246, 0.7), rgba(242, 244, 246, 0.8)), url('img/banner-bg.jpg'); background-size: cover; background-position: center;">
             <div class="container">
-                <h1>Sistema de Gestão de Compras Escolares</h1>
-                <p>Transparência, eficiência e aproximação entre escolas e fornecedores locais.</p>
+                <h1 id="banner-title">Sistema de Gestão de Compras Escolares</h1>
+                <p id="banner-text">Transparência, eficiência e aproximação entre escolas e fornecedores locais.</p>
             </div>
         </section>
 
-        <!-- =========================================================
-             SEÇÃO DE INDICADORES (KPI) - DADOS ESTÁTICOS
-             ========================================================= -->
-        <section class="stats-panel">
+        <section class="stats-panel" id="stats-section">
             <div class="container">
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <h3>+77</h3>
-                        <p>Fornecedores Cadastrados</p>
+                        <h3 id="stat-1-val">+77</h3>
+                        <p id="stat-1-label">Fornecedores Cadastrados</p>
                     </div>
                     <div class="stat-item">
-                        <h3>R$ 850 mil</h3>
-                        <p>Valor Total de Compras</p>
+                        <h3 id="stat-2-val">R$ 850 mil</h3>
+                        <p id="stat-2-label">Valor Total de Compras</p>
                     </div>
                     <div class="stat-item">
-                        <h3>35</h3>
-                        <p>Oportunidades Abertas</p>
+                        <h3 id="stat-3-val">35</h3>
+                        <p id="stat-3-label">Oportunidades Abertas</p>
                     </div>
                     <div class="stat-item">
-                        <h3>42</h3>
-                        <p>Escolas (APMs) Ativas</p>
+                        <h3 id="stat-4-val">42</h3>
+                        <p id="stat-4-label">Escolas (APMs) Ativas</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- =========================================================
-             SEÇÃO DE FUNCIONALIDADES PARA FORNECEDORES
-             ========================================================= -->
         <section id="features" class="features-section section-padding">
             <div class="container">
                 <h2 class="section-title">Soluções para Fornecedores</h2>
@@ -121,19 +75,16 @@
             </div>
         </section>
 
-        <!-- =========================================================
-             SEÇÃO DE OPORTUNIDADES ABERTAS (TABELA RESUMIDA)
-             ========================================================= -->
         <section class="opportunities-section section-padding">
             <div class="container">
-                <h2 class="section-title">Oportunidades Abertas</h2>
+                <h2 class="section-title" id="opp-section-title">Oportunidades Recentes</h2>
 
-                <div class="responsive-table">
-                    <table id="opportunities-table-index" role="table" aria-label="Tabela de oportunidades abertas na página inicial">
+                <div class="responsive-table" id="public-table-container">
+                    <table id="opportunities-table-index" role="table">
                         <thead>
                             <tr>
                                 <th scope="col">Escola</th>
-                                <th scope="col">Objeto da Compra</th>
+                                <th scope="col">Objeto do Serviço</th>
                                 <th scope="col">Encerramento</th>
                                 <th scope="col">Status</th>
                             </tr>
@@ -141,41 +92,35 @@
                         <tbody>
                             <tr>
                                 <td>UME Profª Helena Duarte</td>
-                                <td>Aquisição de materiais de limpeza e higiene</td>
-                                <td>30/11/2025</td>
+                                <td>Manutenção e Limpeza de Ar Condicionado</td>
+                                <td>30/12/2025</td>
                                 <td><span class="status status-aberto">Aberto</span></td>
                             </tr>
                             <tr>
                                 <td>CRECHE Saulo Gomes de Vargas</td>
-                                <td>Compra de berços e colchonetes para berçário</td>
-                                <td>28/11/2025</td>
+                                <td>Dedetização e Controle de Pragas</td>
+                                <td>03/12/2025</td>
                                 <td><span class="status status-aberto">Aberto</span></td>
                             </tr>
                             <tr>
                                 <td>UME Padre Antônio Ribeiro Filho</td>
-                                <td>Serviço de poda de árvores e limpeza externa</td>
-                                <td>01/12/2025</td>
-                                <td><span class="status status-aberto">Aberto</span></td>
-                            </tr>
-                            <tr>
-                                <td>EME Profª Paula Nóbrega</td>
-                                <td>Aquisição de utensílios para cozinha industrial</td>
-                                <td>05/12/2025</td>
+                                <td>Poda de Árvores e Jardinagem</td>
+                                <td>28/12/2025</td>
                                 <td><span class="status status-aberto">Aberto</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
+                <div id="index-opportunities-grid" class="opportunities-grid" style="display: none;">
+                    </div>
+
                 <div style="text-align: center; margin-top: 2rem;">
-                    <a href="oportunidades.html" class="btn btn-primary">Ver todas as oportunidades</a>
+                    <a href="oportunidades.html" class="btn btn-primary" id="btn-view-all">Ver todas as oportunidades</a>
                 </div>
             </div>
         </section>
 
-        <!-- =========================================================
-             SEÇÃO SOBRE O PROJETO / DESENVOLVIMENTO
-             ========================================================= -->
         <section id="desenvolvimento" class="development-section section-padding">
             <div class="container">
                 <h2 class="section-title">Desenvolvimento do Projeto</h2>
@@ -204,169 +149,137 @@
             </div>
         </section>
 
-        <!-- =========================================================
-             SEÇÃO FAQ (ACORDEÃO)
-             ========================================================= -->
         <section id="faq" class="faq-section section-padding">
             <div class="container">
                 <h2 class="section-title">Perguntas Frequentes</h2>
                 <div class="faq-accordion">
                     <div class="faq-item">
-                        <div class="faq-item-header" role="button" tabindex="0">
-                            O que é o SISCOM?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-item-body">
-                            <div class="faq-item-body-content">
-                                <p>O SISCOM é o Sistema de Gestão de Compras Escolares da Prefeitura de Cubatão. Ele conecta fornecedores locais às APMs para cotação e compra de bens e serviços.</p>
-                            </div>
-                        </div>
+                        <div class="faq-item-header">O que é o SISCOM? <i class="fas fa-chevron-down"></i></div>
+                        <div class="faq-item-body"><div class="faq-item-body-content"><p>O SISCOM é o Sistema de Gestão de Compras Escolares da Prefeitura de Cubatão. Ele conecta fornecedores locais às APMs para cotação e compra de bens e serviços.</p></div></div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-item-header" role="button" tabindex="0">
-                            Sou fornecedor. Como me cadastro?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-item-body">
-                            <div class="faq-item-body-content">
-                                <p>Basta clicar no botão "Seja um Fornecedor" nesta página ou no formulário de contato abaixo. O cadastro é gratuito e rápido.</p>
-                            </div>
-                        </div>
+                        <div class="faq-item-header">Sou fornecedor. Como me cadastro? <i class="fas fa-chevron-down"></i></div>
+                        <div class="faq-item-body"><div class="faq-item-body-content"><p>Basta clicar no botão "Seja um Fornecedor" nesta página ou no formulário de contato abaixo. O cadastro é gratuito e rápido.</p></div></div>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-item-header" role="button" tabindex="0">
-                            Preciso pagar alguma taxa?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-item-body">
-                            <div class="faq-item-body-content">
-                                <p>Não. O uso da plataforma é 100% gratuito tanto para as escolas quanto para os fornecedores.</p>
-                            </div>
-                        </div>
+                        <div class="faq-item-header">Preciso pagar alguma taxa? <i class="fas fa-chevron-down"></i></div>
+                        <div class="faq-item-body"><div class="faq-item-body-content"><p>Não. O uso da plataforma é 100% gratuito tanto para as escolas quanto para os fornecedores.</p></div></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- =========================================================
-             SEÇÃO CONTATO / CAPTAÇÃO DE FORNECEDORES
-             ========================================================= -->
         <section id="contact" class="contact-section section-padding">
             <div class="container">
                 <h2 class="section-title">Fale Conosco ou Cadastre-se</h2>
-                <form id="contact-form" class="contact-form" novalidate>
+                <form id="contact-form" class="contact-form">
                     <div class="form-group">
-                        <label for="name">Nome Completo / Razão Social <span class="required" aria-label="campo obrigatório">*</span></label>
-                        <input 
-                            type="text" 
-                            id="name" 
-                            name="name" 
-                            required
-                            aria-required="true"
-                            placeholder="Ex: João Silva ou Empresa LTDA"
-                        >
-                        <span class="form-error" role="alert"></span>
+                        <label for="name">Nome Completo / Razão Social <span class="required">*</span></label>
+                        <input type="text" id="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="email">E-mail <span class="required" aria-label="campo obrigatório">*</span></label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
-                            required
-                            aria-required="true"
-                            placeholder="seu.email@exemplo.com"
-                        >
-                        <span class="form-error" role="alert"></span>
+                        <label for="email">E-mail <span class="required">*</span></label>
+                        <input type="email" id="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="subject">Assunto <span class="required" aria-label="campo obrigatório">*</span></label>
-                        <select id="subject" name="subject" required aria-required="true">
+                        <label for="subject">Assunto <span class="required">*</span></label>
+                        <select id="subject" required>
                             <option value="">Selecione...</option>
                             <option value="cadastro_fornecedor">Quero ser um fornecedor</option>
                             <option value="duvida_apm">Dúvida (sou da APM)</option>
                             <option value="suporte_tecnico">Suporte Técnico</option>
                             <option value="outros">Outros</option>
                         </select>
-                        <span class="form-error" role="alert"></span>
                     </div>
                     <div class="form-group">
-                        <label for="message">Mensagem <span class="required" aria-label="campo obrigatório">*</span></label>
-                        <textarea 
-                            id="message" 
-                            name="message" 
-                            required
-                            aria-required="true"
-                            placeholder="Digite sua mensagem aqui..."
-                        ></textarea>
-                        <span class="form-error" role="alert"></span>
+                        <label for="message">Mensagem <span class="required">*</span></label>
+                        <textarea id="message" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Mensagem</button>
-                    <p id="form-message" role="status" aria-live="polite"></p>
                 </form>
             </div>
         </section>
 
     </main>
 
-    <!-- =========================================================
-         FOOTER GLOBAL
-         ========================================================= -->
-    <footer class="main-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-about">
-                    <div class="footer-logo">SISCOM<span>.</span></div>
-                    <div class="footer-logo-etec">
-                        <img src="img/logo-etec.png" alt="Logo ETEC" style="height: 40px; width: auto; display: block;">
-                        <p>Versão: 04/12/2025</p>
-                    </div>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Navegação</h4>
-                    <ul>
-                        <li><a href="index.html">Início</a></li>
-                        <li><a href="oportunidades.html">Painel de Oportunidades</a></li>
-                        <li><a href="#desenvolvimento">Desenvolvimento</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                    </ul>
-                </div>
+    <div id="site-footer"></div>
 
-                <div class="footer-links">
-                    <h4>Links Úteis</h4>
-                    <ul>
-                        <li><a href="https://www.cubatao.sp.gov.br" target="_blank">Prefeitura de Cubatão</a></li>
-                        <li><a href="https://www.cubatao.sp.gov.br/educacao/" target="_blank">Secretaria de Educação</a></li>
-                        <li><a href="login.html">Login no Sistema</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                &copy; <span id="dynamic-year"></span> Esta página é um projeto dos alunos do curso Técnico em Informática da ETEC de Cubatão. 2025.
-            </div>
-        </div>
-    </footer>
-
-    <!-- =========================================================
-         SCRIPT PRINCIPAL (MENU, FAQ, FILTROS, ANO, MODAL)
-         ========================================================= -->
+    <script src="inc/header-footer.js"></script>
     <script src="jsmain.js"></script>
-
-    <!-- =========================================================
-         MODAL DE FEEDBACK (SUCESSO)
-         ========================================================= -->
+    
     <div id="custom-modal-overlay">
         <div class="custom-modal-box">
-            <div class="custom-modal-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
+            <div class="custom-modal-icon"><i class="fas fa-check-circle"></i></div>
             <h3 id="popup-title">Mensagem Enviada!</h3>
-            <p id="popup-text">Recebemos seu contato com sucesso. A equipe do SISCOM retornará em breve.</p>
+            <p id="popup-text">Recebemos seu contato com sucesso.</p>
             <button id="custom-modal-close" class="custom-close-btn">Fechar</button>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const user = JSON.parse(sessionStorage.getItem("siscom_user"));
+            
+            // Verifica se é APM
+            if (user && user.role === 'apm') {
+                // 1. Altera o título da seção
+                const title = document.getElementById("opp-section-title");
+                if (title) title.innerText = "Minhas Oportunidades (Gestão)";
+                
+                // 2. Esconde a tabela pública
+                const publicTable = document.getElementById("public-table-container");
+                if (publicTable) publicTable.style.display = "none";
+                
+                // 3. Mostra a grid
+                const grid = document.getElementById("index-opportunities-grid");
+                if (grid) {
+                    grid.style.display = "grid"; // ou flex, dependendo do CSS, mas grid é o padrão da classe
+                    
+                    // 4. Carrega as oportunidades (fixas + criadas pela APM)
+                    const seedOpps = JSON.parse(localStorage.getItem("siscom_data_v7")) || [];
+                    const savedOpps = JSON.parse(localStorage.getItem("siscom_custom_opps")) || [];
+                    const allOpps = [...seedOpps, ...savedOpps];
+
+                    // Filtra apenas as oportunidades da escola logada e que estejam em aberto (normalizado)
+                    function normalizeForCompare(s) { return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+                    const myOpenOpps = allOpps.filter(o => normalizeForCompare(o.school) === normalizeForCompare(user.name) && o.status === 'aberto');
+
+                    // Exemplo fixo para demonstrar funcionalidade se não houver nada salvo
+                    if(myOpenOpps.length === 0) {
+                       grid.innerHTML = `
+                            <div style="grid-column: 1/-1; text-align: center; color: #666; padding: 20px;">
+                                <p>Você ainda não cadastrou nenhuma oportunidade nova.</p>
+                                <a href="oportunidades.html" class="btn btn-secondary" style="margin-top:10px;">Ir para o Painel</a>
+                            </div>
+                       `;
+                    } else {
+                        // Renderiza os cards
+                        let cardsHTML = "";
+                        myOpenOpps.forEach(opp => {
+                            cardsHTML += `
+                                <div class="opp-card">
+                                    <div class="opp-card-header">
+                                        <div class="opp-icon"><i class="${opp.icon}"></i></div>
+                                        <div class="opp-school">${opp.school}</div>
+                                    </div>
+                                    <h3 class="opp-title">${opp.title}</h3>
+                                    <p class="opp-desc">${(opp.description || '').substring(0, 80)}...</p>
+                                    <div class="opp-footer">
+                                        <div class="opp-meta">
+                                            <span><i class="far fa-calendar-alt"></i> Até ${opp.expiry}</span>
+                                            <span><i class="fas fa-map-marker-alt"></i> ${opp.location}</span>
+                                        </div>
+                                        <a href="gerenciar-oportunidade.html?id=${encodeURIComponent(opp.id || '')}" class="btn-details">Gerenciar</a>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        grid.innerHTML = cardsHTML;
+                    }
+                }
+            }
+        });
+    </script>
 
 </body>
 </html>

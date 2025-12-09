@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Orçamento – SISCOM</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div id="site-header"></div>
+
+    <main>
+        <section class="section-padding">
+            <div class="container">
+                <div class="login-container" style="max-width: 800px; margin: 0 auto; display: block;">
+                    
+                    <div class="login-box" style="width: 100%;">
+                        <h2 style="margin-bottom: 10px;">Enviar Proposta Comercial</h2>
+                        <p style="color: #666; margin-bottom: 20px;">
+                            Você está enviando um orçamento para: <br>
+                            <strong id="target-school" style="color: #000; font-size: 1.2rem;">Carregando...</strong>
+                            <br>
+                            <small id="target-title" style="color: #555;">...</small>
+                        </p>
+
+                        <form id="proposal-form">
+                            <div class="form-group">
+                                <label>Sua Empresa / Razão Social</label>
+                                <input type="text" value="Minha Empresa (Logada)" disabled style="background: #f0f0f0;">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="price">Valor Total da Proposta (R$)</label>
+                                <input type="text" id="price" placeholder="Ex: 1.500,00" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="details">Descrição Detalhada / Observações</label>
+                                <textarea id="details" rows="5" placeholder="Descreva os itens, marcas e detalhes da entrega..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="file">Anexar PDF do Orçamento (Opcional)</label>
+                                <input type="file" id="file" accept=".pdf,.jpg,.png">
+                            </div>
+
+                            <div class="login-actions" style="margin-top: 30px;">
+                                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                    <i class="fas fa-paper-plane"></i> Enviar Cotação Agora
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="inc/header-footer.js"></script>
+    <script src="jsmain.js"></script>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const schoolName = params.get('school');
+        const oppTitle = params.get('title');
+        const oppId = params.get('id');
+
+        if (schoolName) document.getElementById('target-school').textContent = schoolName;
+        if (oppTitle) document.getElementById('target-title').textContent = oppTitle;
+
+        document.getElementById('proposal-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+
+            // Validação do preço: aceitar apenas números, vírgula ou ponto como separador
+            const priceInput = document.getElementById('price');
+            let raw = (priceInput.value || '').trim();
+            // Remove espaços e caracteres inválidos (mantém dígitos, ponto e vírgula)
+            raw = raw.replace(/[^\d.,]/g, '').replace(/\s+/g,'');
+            if (!raw) { alert('Informe um valor válido para o preço.'); priceInput.focus(); return; }
+            // Normaliza vírgula para ponto para validar float
+            const normalized = raw.replace(',', '.');
+            if (!/^[0-9]+(\.[0-9]{1,2})?$/.test(normalized)) {
+                alert('Informe um valor numérico válido (ex: 1500 ou 1500,50).');
+                priceInput.focus();
+                return;
+            }
+
+            btn.innerHTML = "Enviando...";
+            btn.disabled = true;
+
+            // Formata para R$ 1.500,00
+            const valueNumber = parseFloat(normalized);
+            const formattedPrice = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valueNumber);
+
+            const myProposals = JSON.parse(localStorage.getItem("siscom_my_proposals")) || [];
+
+            // Tenta pegar informações do fornecedor logado
+            const loggedUser = JSON.parse(sessionStorage.getItem('siscom_user')) || null;
+            const providerUser = loggedUser ? loggedUser.user : 'anon';
+            const providerName = loggedUser ? loggedUser.name : 'Fornecedor Não Identificado';
+
+            // Salva apenas se já não existir para este fornecedor (usa opportunityId quando disponível)
+            function normalizeKey(s) { return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+            const duplicate = myProposals.find(p => {
+                if (p.opportunityId && oppId) return p.opportunityId === oppId && (p.providerUser === providerUser || p.providerName === providerName);
+                return normalizeKey(p.title) === normalizeKey(oppTitle) && (p.providerUser === providerUser || p.providerName === providerName);
+            });
+
+            if (!duplicate) {
+                myProposals.push({
+                    opportunityId: oppId || null,
+                    title: oppTitle,
+                    school: schoolName,
+                    price: formattedPrice,
+                    date: new Date().toLocaleDateString('pt-BR'),
+                    providerUser: providerUser,
+                    providerName: providerName
+                });
+                localStorage.setItem("siscom_my_proposals", JSON.stringify(myProposals));
+            }
+
+            // Também registra em received_proposals para que a APM veja as propostas recebidas
+            try {
+                const received = JSON.parse(localStorage.getItem('siscom_received_proposals')) || {};
+                const key = oppId || oppTitle || 'unknown';
+                received[key] = received[key] || [];
+                // adiciona registro de recebimento (não duplica por provider)
+                if (!received[key].some(r => r.providerName === providerName && r.price === formattedPrice)) {
+                    received[key].push({ opportunityId: oppId || null, providerName, providerUser, price: formattedPrice, date: new Date().toLocaleDateString('pt-BR') });
+                    localStorage.setItem('siscom_received_proposals', JSON.stringify(received));
+                }
+            } catch (err) { console.warn('Erro ao atualizar received proposals', err); }
+
+            setTimeout(() => {
+                alert("✅ Sucesso!\n\nProposta enviada.");
+                window.location.href = "oportunidades.html"; 
+            }, 800);
+        });
+    </script>
+</body>
+</html>

@@ -92,9 +92,11 @@
             const storedProposals = JSON.parse(localStorage.getItem("siscom_my_proposals")) || [];
             const myProposals = (user && user.role === 'fornecedor') ? storedProposals.filter(p => p.providerUser === user.user || p.providerName === user.name) : [];
 
-            // Se for APM, mostrar apenas oportunidades da sua escola
+
+            // Se for APM, mostrar apenas oportunidades da sua escola (comparação normalizada)
             if (user && user.role === 'apm') {
-                dataset = dataset.filter(o => (o.school || '').trim() === (user.name || '').trim());
+                function normalizeForCompare(s) { return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+                dataset = dataset.filter(o => normalizeForCompare(o.school) === normalizeForCompare(user.name));
             }
 
             // Ajuste para APM
@@ -116,7 +118,9 @@
                 dataset.forEach(opp => {
                     // --- LÓGICA DE PROPOSTA ENVIADA ---
                     // Verifica se existe alguma proposta salva para esta opportunityId (quando disponível) ou por título
-                    const isSent = myProposals.some(p => (p.opportunityId && opp.id) ? p.opportunityId === opp.id : ((p.title || '').trim().toLowerCase() === (opp.title || '').trim().toLowerCase()));
+
+                    function normalizeKey(s) { return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+                    const isSent = myProposals.some(p => (p.opportunityId && opp.id) ? p.opportunityId === opp.id : (normalizeKey(p.title) === normalizeKey(opp.title)));
 
                     // --- FILTROS ---
                     let show = true;

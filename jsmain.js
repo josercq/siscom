@@ -67,6 +67,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         DataSeeder.init();
 
+        // Garantir que oportunidades custom (criados pela APM) tenham `id`
+        try {
+            const customKey = 'siscom_custom_opps';
+            const custom = JSON.parse(localStorage.getItem(customKey)) || [];
+            let changed = false;
+            custom.forEach(o => {
+                if (!o.id) {
+                    o.id = generateId('opp');
+                    changed = true;
+                }
+            });
+            if (changed) localStorage.setItem(customKey, JSON.stringify(custom));
+        } catch (err) {
+            console.warn('Erro ao garantir ids para custom_opps', err);
+        }
+
+        // Helper: normaliza strings para comparações estáveis (remove acentos, espaços, caixa)
+        function normalizeKey(s) {
+            return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
         // Seed de proposals recebidas e proposals enviadas para teste (não sobrescreve se já existir)
         try {
             if (!localStorage.getItem('siscom_received_proposals')) {
@@ -103,6 +124,55 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (err) {
             console.warn('Erro ao seedar propostas de teste:', err);
+        }
+
+        // Migração: converter `siscom_my_proposals` e `siscom_received_proposals` antigos (baseados em título)
+        // para usar `opportunityId` quando possível (mapeia títulos existentes para ids)
+        try {
+            const allOpps = [...DataSeeder.getAll(), ...(JSON.parse(localStorage.getItem('siscom_custom_opps')) || [])];
+            const titleToId = {};
+            allOpps.forEach(o => {
+                if (o.title && o.id) titleToId[normalizeKey(o.title)] = o.id;
+            });
+
+            // Migrar my_proposals
+            const myKey = 'siscom_my_proposals';
+            const myList = JSON.parse(localStorage.getItem(myKey)) || [];
+            let myChanged = false;
+            myList.forEach(p => {
+                if (!p.opportunityId) {
+                    const t = normalizeKey(p.title);
+                    if (t && titleToId[t]) {
+                        p.opportunityId = titleToId[t];
+                        myChanged = true;
+                    }
+                }
+            });
+            if (myChanged) localStorage.setItem(myKey, JSON.stringify(myList));
+
+            // Migrar received_proposals: chave pode ser título ou id
+            const recKey = 'siscom_received_proposals';
+            const received = JSON.parse(localStorage.getItem(recKey)) || {};
+            let recChanged = false;
+            Object.keys(received).forEach(k => {
+                // se já for um id conhecido, pula
+                if (allOpps.find(o => o.id === k)) return;
+                const mappedId = titleToId[normalizeKey(k)];
+                if (mappedId) {
+                    // move array para a nova chave id
+                    const arr = received[k] || [];
+                    // garantir opportunityId em cada item
+                    arr.forEach(item => { if (!item.opportunityId) item.opportunityId = mappedId; });
+                    received[mappedId] = (received[mappedId] || []).concat(arr);
+                    delete received[k];
+                    recChanged = true;
+                } else {
+                    // ainda uma chave por título sem mapping; no-op
+                }
+            });
+            if (recChanged) localStorage.setItem(recKey, JSON.stringify(received));
+        } catch (err) {
+            console.warn('Erro na migração de propostas para opportunityId:', err);
         }
 
         // =========================================================
@@ -214,7 +284,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 if(sectionTitle) sectionTitle.textContent = "Suas Oportunidades (Em Aberto)";
 
                 const allOpps = [...DataSeeder.getAll(), ...(JSON.parse(localStorage.getItem("siscom_custom_opps")) || [])];
-                const myOpenList = allOpps.filter(o => o.school === loggedUser.name && o.status === 'aberto');
+                function normalizeForCompare(s) { return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+                const myOpenList = allOpps.filter(o => normalizeForCompare(o.school) === normalizeForCompare(loggedUser.name) && o.status === 'aberto');
                 const gridContainer = document.getElementById("index-opportunities-grid");
 
                 if (gridContainer) {
@@ -283,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 if (p.opportunityId) {
                                     opp = allOpps.find(o => o.id === p.opportunityId);
                                 }
-                                if(!opp) opp = allOpps.find(o => (o.title || '').trim().toLowerCase() === (p.title || '').trim().toLowerCase());
+                                if(!opp) opp = allOpps.find(o => normalizeKey(o.title) === normalizeKey(p.title));
                                 const title = p.title || (opp ? opp.title : 'Oportunidade');
                                 const icon = opp ? opp.icon : 'fas fa-briefcase';
                                 const school = p.school || (opp ? opp.school : 'Escola');
@@ -526,7 +597,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     cards.forEach(card => {
                         const cardSchool = card.getAttribute("data-school");
                         const oppId = card.getAttribute('data-id');
-                        if (cardSchool !== user.name) {
+                        if (normalizeForCompare(cardSchool) !== normalizeForCompare(user.name)) {
                             card.style.display = "none"; 
                             card.setAttribute("data-hidden-auth", "true");
                         } else {
@@ -560,7 +631,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             const oppId = card.getAttribute('data-id');
 
                             // Se já enviou proposta para esta oportunidade, marca e desabilita o botão
-                            const sent = myProposals.some(p => p.opportunityId && oppId ? p.opportunityId === oppId : ((p.title || '').trim().toLowerCase() === (oppTitle || '').trim().toLowerCase()));
+                            const sent = myProposals.some(p => (p.opportunityId && oppId) ? p.opportunityId === oppId : (normalizeKey(p.title) === normalizeKey(oppTitle)));
                             const footer = card.querySelector('.card-footer');
 
                             if (sent) {
@@ -743,6 +814,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 p.classList.toggle("active");
                 b.style.maxHeight = p.classList.contains("active") ? b.scrollHeight + "px" : 0;
             });
+
         });
 
     } catch (error) {

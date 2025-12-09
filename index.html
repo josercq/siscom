@@ -240,8 +240,10 @@
                     const savedOpps = JSON.parse(localStorage.getItem("siscom_custom_opps")) || [];
                     const allOpps = [...seedOpps, ...savedOpps];
 
-                    // Filtra apenas as oportunidades da escola logada e que estejam em aberto
-                    const myOpenOpps = allOpps.filter(o => (o.school || '').trim() === (user.name || '').trim() && o.status === 'aberto');
+
+                    // Filtra apenas as oportunidades da escola logada e que estejam em aberto (normalizado)
+                    function normalizeForCompare(s) { return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+                    const myOpenOpps = allOpps.filter(o => normalizeForCompare(o.school) === normalizeForCompare(user.name) && o.status === 'aberto');
 
                     // Exemplo fixo para demonstrar funcionalidade se não houver nada salvo
                     if(myOpenOpps.length === 0) {
@@ -268,7 +270,8 @@
                                             <span><i class="far fa-calendar-alt"></i> Até ${opp.expiry}</span>
                                             <span><i class="fas fa-map-marker-alt"></i> ${opp.location}</span>
                                         </div>
-                                        <a href="gerenciar-oportunidade.html" class="btn-details">Gerenciar</a>
+
+                                        <a href="gerenciar-oportunidade.html?id=${encodeURIComponent(opp.id || '')}" class="btn-details">Gerenciar</a>
                                     </div>
                                 </div>
                             `;

@@ -82,7 +82,11 @@
             e.preventDefault();
 
             // Cria o objeto da nova oportunidade
+
+            function generateId(prefix = 'opp') { return prefix + '-' + Math.random().toString(36).slice(2,9); }
+
             const newOpp = {
+                id: generateId('opp'),
                 school: loggedUser.name,
                 title: document.getElementById("title").value,
                 icon: document.getElementById("category").value,

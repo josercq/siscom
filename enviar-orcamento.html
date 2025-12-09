@@ -80,8 +80,27 @@
         document.getElementById('proposal-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const btn = e.target.querySelector('button');
+
+            // Validação do preço: aceitar apenas números, vírgula ou ponto como separador
+            const priceInput = document.getElementById('price');
+            let raw = (priceInput.value || '').trim();
+            // Remove espaços e caracteres inválidos (mantém dígitos, ponto e vírgula)
+            raw = raw.replace(/[^\d.,]/g, '').replace(/\s+/g,'');
+            if (!raw) { alert('Informe um valor válido para o preço.'); priceInput.focus(); return; }
+            // Normaliza vírgula para ponto para validar float
+            const normalized = raw.replace(',', '.');
+            if (!/^[0-9]+(\.[0-9]{1,2})?$/.test(normalized)) {
+                alert('Informe um valor numérico válido (ex: 1500 ou 1500,50).');
+                priceInput.focus();
+                return;
+            }
+
             btn.innerHTML = "Enviando...";
             btn.disabled = true;
+
+            // Formata para R$ 1.500,00
+            const valueNumber = parseFloat(normalized);
+            const formattedPrice = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valueNumber);
 
             const myProposals = JSON.parse(localStorage.getItem("siscom_my_proposals")) || [];
 
@@ -91,9 +110,11 @@
             const providerName = loggedUser ? loggedUser.name : 'Fornecedor Não Identificado';
 
             // Salva apenas se já não existir para este fornecedor (usa opportunityId quando disponível)
+
+            function normalizeKey(s) { return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
             const duplicate = myProposals.find(p => {
                 if (p.opportunityId && oppId) return p.opportunityId === oppId && (p.providerUser === providerUser || p.providerName === providerName);
-                return p.title === oppTitle && (p.providerUser === providerUser || p.providerName === providerName);
+                return normalizeKey(p.title) === normalizeKey(oppTitle) && (p.providerUser === providerUser || p.providerName === providerName);
             });
 
             if (!duplicate) {
@@ -101,7 +122,8 @@
                     opportunityId: oppId || null,
                     title: oppTitle,
                     school: schoolName,
-                    price: document.getElementById('price').value,
+
+                    price: formattedPrice,
                     date: new Date().toLocaleDateString('pt-BR'),
                     providerUser: providerUser,
                     providerName: providerName
@@ -115,8 +137,9 @@
                 const key = oppId || oppTitle || 'unknown';
                 received[key] = received[key] || [];
                 // adiciona registro de recebimento (não duplica por provider)
-                if (!received[key].some(r => r.providerName === providerName && r.price === document.getElementById('price').value)) {
-                    received[key].push({ opportunityId: oppId || null, providerName, providerUser, price: document.getElementById('price').value, date: new Date().toLocaleDateString('pt-BR') });
+
+                if (!received[key].some(r => r.providerName === providerName && r.price === formattedPrice)) {
+                    received[key].push({ opportunityId: oppId || null, providerName, providerUser, price: formattedPrice, date: new Date().toLocaleDateString('pt-BR') });
                     localStorage.setItem('siscom_received_proposals', JSON.stringify(received));
                 }
             } catch (err) { console.warn('Erro ao atualizar received proposals', err); }

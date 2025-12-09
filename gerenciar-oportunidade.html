@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Processo – SISCOM</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .management-header { background-color: #fff; border-bottom: 1px solid #e0e0e0; padding: 30px 0; margin-bottom: 30px; }
+        .status-badge { background-color: #e0f2f1; color: #00695c; padding: 5px 12px; border-radius: 15px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; }
+        .summary-card { background: #f8f9fa; border-left: 5px solid #FFC107; padding: 20px; border-radius: 4px; margin-bottom: 30px; }
+        .proposals-table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; }
+        .proposals-table th { background-color: #1a1a1a; color: #fff; padding: 15px; text-align: left; font-weight: 700; text-transform: uppercase; font-size: 0.9rem; }
+        .proposals-table td { padding: 15px; border-bottom: 1px solid #eee; color: #333; vertical-align: middle; }
+        .proposals-table tr:hover { background-color: #ffffef; }
+        .price-tag { font-weight: 900; font-size: 1.1rem; color: #333; display: block; }
+        .btn-action { padding: 8px 16px; border-radius: 4px; border: none; cursor: pointer; font-weight: 700; transition: all 0.2s; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-view { background-color: #e0e0e0; color: #333; margin-right: 5px; }
+        .btn-approve { background-color: #1a1a1a; color: #fff; border: 1px solid #1a1a1a; }
+        .btn-approve:hover { background-color: #333; }
+    </style>
+    </head>
+<body>
+
+    <div id="site-header"></div>
+
+    <main>
+        <div class="management-header">
+            <div class="container">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                    <div>
+                        <h4 style="color: #666; margin-bottom: 5px;">Gerenciamento de Processo</h4>
+                        <h1 style="margin: 0; font-size: 1.8rem;">Manutenção de Ar Condicionado</h1>
+                    </div>
+                    <div>
+                        <span class="status-badge">Em Aberto - Recebendo Propostas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="summary-card">
+                <h3 style="margin-top: 0; font-size: 1.1rem;"><i class="fas fa-info-circle"></i> Resumo da Solicitação</h3>
+                <p style="margin-bottom: 0; color: #555;">
+                    Contratação de empresa especializada para limpeza química, higienização e recarga de gás em 12 aparelhos Split (12.000 BTUs). <br>
+                    <strong>Escola Solicitante:</strong> UME Profª Helena Duarte <br>
+                    <strong>Encerramento:</strong> 30/12/2025
+                </p>
+            </div>
+
+            <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">Orçamentos Recebidos</h2>
+            
+            <div class="responsive-table">
+                <table class="proposals-table">
+                    <thead>
+                        <tr>
+                            <th>Prestador de Serviço</th>
+                            <th>Data Envio</th>
+                            <th>Valor Total</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="received-proposals-body">
+                        <!-- preenchido dinamicamente a partir de localStorage:siscom_received_proposals -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="inc/header-footer.js"></script>
+    <script src="jsmain.js"></script>
+    <script>
+        // Preenche lista de propostas recebidas para esta oportunidade (APM)
+        (function(){
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const oppId = params.get('id');
+                const titleEl = document.querySelector('.management-header h1') || document.querySelector('h1');
+                const received = JSON.parse(localStorage.getItem('siscom_received_proposals')) || {};
+
+                // Tenta resolver título e metadados da oportunidade a partir do id
+                let oppTitle = titleEl ? titleEl.textContent.trim() : 'Manutenção de Ar Condicionado';
+                if (oppId) {
+                    const allOpps = (JSON.parse(localStorage.getItem('siscom_data_v7')) || []).concat(JSON.parse(localStorage.getItem('siscom_custom_opps')) || []);
+                    const found = allOpps.find(o => o.id === oppId);
+                    if (found) {
+                        oppTitle = found.title;
+                        // Atualiza cabeçalho e resumo se possível
+                        const h1 = document.querySelector('.management-header h1');
+                        if (h1) h1.textContent = found.title;
+                        const summary = document.querySelector('.summary-card p');
+                        if (summary) {
+                            summary.innerHTML = `${found.description} <br> <strong>Escola Solicitante:</strong> ${found.school} <br> <strong>Encerramento:</strong> ${found.expiry}`;
+                        }
+                    }
+                }
+
+                const list = (oppId && received[oppId]) ? received[oppId] : (received[oppTitle] || []);
+                const tbody = document.getElementById('received-proposals-body');
+                if (!tbody) return;
+                if (list.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:30px;">Nenhuma proposta recebida ainda.</td></tr>`;
+                } else {
+                    tbody.innerHTML = '';
+                    list.forEach(p => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>
+                                <strong>${p.providerName}</strong><br>
+                                <span style="font-size: 0.8rem; color: #888;">Usuário: ${p.providerUser}</span>
+                            </td>
+                            <td>${p.date}</td>
+                            <td><span class="price-tag">${p.price}</span></td>
+                            <td>
+                                <button class="btn-action btn-view" onclick="alert('Visualizar proposta de ${p.providerName}')"><i class="fas fa-eye"></i></button>
+                                <button class="btn-action btn-approve" onclick="aprovarProposta('${p.providerName}')"><i class="fas fa-check"></i> Aprovar</button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            } catch (err) { console.warn('Erro ao carregar propostas recebidas', err); }
+        })();
+    </script>
+    <script>
+        function aprovarProposta(fornecedor) {
+            if(confirm(`Confirmar contratação de ${fornecedor}?`)) {
+                alert("Contratação iniciada!");
+                window.location.href = "oportunidades.html";
+            }
+        }
+    </script>
+</body>
+</html>

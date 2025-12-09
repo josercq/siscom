@@ -8,238 +8,201 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/style.css?v=5">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        .page-header { background-color: #F2D96B; padding: 40px 0; border-bottom: 1px solid #e0c040; width: 100%; }
+        .page-header h1 { color: #000; font-weight: 800; margin-bottom: 5px; }
+        .page-header p { color: #1a1a1a; font-weight: 600; font-size: 1.1rem; margin: 0; }
+        .btn-black { background-color: #000; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; text-decoration: none; }
+        .btn-black:hover { background-color: #333; color: #fff; }
+        /* Badge específica para status de envio */
+        .badge-status-sent { background-color: #000; color: #fff; padding: 5px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px; display: inline-block; text-transform: uppercase; }
+    </style>
 </head>
 <body>
 
-    <header class="main-header">
-        <div class="container">
-            <a href="index.html" class="logo">SISCOM<span>.</span></a>
-            <nav class="main-nav" id="main-nav">
-                <ul>
-                    <li><a href="index.html#features">Funcionalidades</a></li>
-                    <li><a href="oportunidades.html" class="active">Painel de Oportunidades</a></li>
-                    <li><a href="index.html#desenvolvimento">Desenvolvimento</a></li>
-                    <li><a href="index.html#faq">FAQ</a></li>
-                </ul>
-            </nav>
-            <div class="header-buttons">
-                <a href="index.html#contact" class="btn btn-primary">Seja um Fornecedor</a>
-                <a href="login.html" class="btn btn-secondary">Entrar no Sistema</a>
-            </div>
-            <button class="hamburger-menu" id="hamburger-menu" aria-label="Abrir menu">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </header>
+    <div id="site-header"></div>
 
     <main>
         <header class="page-header">
             <div class="container">
-                <h1>Painel de Oportunidades</h1>
+                <h1 id="panel-title">Painel de Oportunidades</h1>
+                <p>Encontre demandas ou gerencie suas solicitações.</p>
+                <div id="apm-controls" style="display: none; margin-top: 20px;">
+                    <a href="nova-oportunidade.html" class="btn-black">
+                        <i class="fas fa-plus-circle"></i> Nova Oportunidade
+                    </a>
+                </div>
             </div>
         </header>
 
-        <section class="oportunidades-page section-padding" style="padding-top: 0;">
+        <section class="oportunidades-page section-padding" style="padding-top: 20px;">
             <div class="container">
                 
-                <div class="filters-bar">
-                    
-                    <div class="form-group">
-                        <label for="school-filter">Filtrar por Escola</label>
-                        <select id="school-filter" aria-label="Filtrar por Escola">
+                <div class="filters-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="school-filter">Escola</label>
+                        <select id="school-filter" style="width: 100%;">
                             <option value="todas">Todas as Escolas</option>
                             <option value="helena">Profª Helena Duarte</option>
                             <option value="ribeiro">Padre Antônio Ribeiro Filho</option>
-                            <option value="elizabeth">Profª Elizabeth Candido</option>
-                            <option value="dilce">Dilce Ferreira Campos</option>
                             <option value="saulo">CRECHE Saulo Gomes</option>
-                            <option value="venancio">EMEF Venâncio de Oliveira</option>
-                            <option value="paula">Profª Paula Nóbrega</option>
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <label for="status-filter">Filtrar por Status</label>
-                        <select id="status-filter" aria-label="Filtrar por Status">
+                    
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="status-filter">Situação da Proposta</label>
+                        <select id="status-filter" style="width: 100%;">
                             <option value="todos">Todos</option>
-                            <option value="aberto">Aberto</option>
-                            <option value="encerrado">Encerrado</option>
+                            <option value="disponivel">Propostas Disponíveis</option>
+                            <option value="enviada">Propostas Enviadas (Minhas)</option>
+                            <option value="encerrado">Encerradas</option>
                         </select>
                     </div>
-
                 </div>
 
-                <div class="responsive-table">
-                    <table id="opportunities-table-full" role="table" aria-label="Tabela completa de oportunidades">
-                        <thead>
-                            <tr>
-                                <th scope="col">Escola (APM)</th>
-                                <th scope="col">Objeto da Compra</th>
-                                <th scope="col">Encerramento</th>
-                                <th scope="col">Modalidade</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>UME Profª Helena Duarte</td>
-                                <td>Aquisição de materiais de limpeza (Água sanitária, desinfetante)</td>
-                                <td>30/11/2025 - 17:00</td>
-                                <td>Cotação Eletrônica</td>
-                                <td><span class="status status-aberto">Aberto</span></td>
-                                <td><a href="login.html" class="btn btn-secondary btn-sm">Enviar Cotação</a></td>
-                            </tr>
-                            <tr>
-                                <td>CRECHE Saulo Gomes de Vargas</td>
-                                <td>Aquisição de brinquedos pedagógicos e tatames</td>
-                                <td>03/12/2025 - 09:00</td>
-                                <td>Pregão Presencial</td>
-                                <td><span class="status status-aberto">Aberto</span></td>
-                                <td><a href="login.html" class="btn btn-secondary btn-sm">Enviar Cotação</a></td>
-                            </tr>
-                            <tr>
-                                <td>UME Padre Antônio Ribeiro Filho</td>
-                                <td>Contratação de serviços de jardinagem e poda</td>
-                                <td>28/11/2025 - 14:00</td>
-                                <td>Dispensa de Licitação</td>
-                                <td><span class="status status-aberto">Aberto</span></td>
-                                <td><a href="login.html" class="btn btn-secondary btn-sm">Enviar Cotação</a></td>
-                            </tr>
-                            <tr>
-                                <td>EMEF Venâncio de Oliveira</td>
-                                <td>Manutenção corretiva em 15 computadores do laboratório</td>
-                                <td>01/12/2025 - 16:00</td>
-                                <td>Cotação Eletrônica</td>
-                                <td><span class="status status-aberto">Aberto</span></td>
-                                <td><a href="login.html" class="btn btn-secondary btn-sm">Enviar Cotação</a></td>
-                            </tr>
-                             <tr>
-                                <td>EME Profª Paula Nóbrega</td>
-                                <td>Aquisição de utensílios para cozinha industrial</td>
-                                <td>05/12/2025 - 09:00</td>
-                                <td>Pregão Presencial</td>
-                                <td><span class="status status-aberto">Aberto</span></td>
-                                <td><a href="login.html" class="btn btn-secondary btn-sm">Enviar Cotação</a></td>
-                            </tr>
-
-                            <tr>
-                                <td>UME Profª Elizabeth Candido</td>
-                                <td>Compra de 50 kits de material escolar suplementar</td>
-                                <td>20/11/2025 - 10:00</td>
-                                <td>Cotação Eletrônica</td>
-                                <td><span class="status status-encerrado">Encerrado</span></td>
-                                <td><a href="#" class="btn btn-sm" disabled style="opacity: 0.5; cursor: not-allowed;">Ver Resultado</a></td>
-                            </tr>
-                            <tr>
-                                <td>UME Dilce Ferreira Campos</td>
-                                <td>Serviço de buffet para evento de encerramento</td>
-                                <td>10/11/2025 - 17:00</td>
-                                <td>Cotação Eletrônica</td>
-                                <td><span class="status status-encerrado">Encerrado</span></td>
-                                <td><a href="#" class="btn btn-sm" disabled style="opacity: 0.5; cursor: not-allowed;">Ver Resultado</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div id="opportunities-grid" class="opportunities-grid"></div>
+                
+                <div id="no-results" style="display: none; text-align: center; padding: 40px; grid-column: 1 / -1;">
+                    <h3>Nenhuma oportunidade encontrada.</h3>
                 </div>
 
             </div>
         </section>
-
     </main>
 
-    <footer class="main-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-about">
-                    <div class="footer-logo">SISCOM<span>.</span></div>
-<div class="footer-logo-etec">
-    <img src="img/logo-etec.png" alt="Logo ETEC" style="height: 40px; width: auto; display: block;">
-    <p>Versão Prévia: 17/11/2025.</p>
-</div>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Navegação</h4>
-                    <ul>
-                        <li><a href="index.html">Início</a></li>
-                        <li><a href="oportunidades.html">Painel de Oportunidades</a></li>
-                        <li><a href="index.html#desenvolvimento">Desenvolvimento</a></li>
-                        <li><a href="index.html#faq">FAQ</a></li>
-                    </ul>
-                </div>
+    <div id="site-footer"></div>
 
-                <div class="footer-links">
-                    <h4>Links Úteis</h4>
-                    <ul>
-                        <li><a href="https://www.cubatao.sp.gov.br" target="_blank">Prefeitura de Cubatão</a></li>
-                        <li><a href="https://www.cubatao.sp.gov.br/educacao" target="_blank">Secretaria de Educação</a></li>
-                        <li><a href="login.html">Login no Sistema</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                &copy; <span id="dynamic-year"></span> Esta plataforma é um projeto dos alunos do curso Técnico em Informática da ETEC de Cubatão.
-            </div>
-        </div>
-    </footer>
+    <script src="inc/header-footer.js"></script>
+    <script src="jsmain.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            // 1. Pega dados do sistema (jsmain.js popula o localStorage inicialmente)
+            const allOpps = JSON.parse(localStorage.getItem("siscom_data_v7")) || [];
+            const customOpps = JSON.parse(localStorage.getItem("siscom_custom_opps")) || [];
             
-            // 1. Menu Mobile
-            const hamburger = document.getElementById("hamburger-menu");
-            const mainNav = document.getElementById("main-nav");
-            if (hamburger && mainNav) {
-                hamburger.addEventListener("click", () => {
-                    mainNav.classList.toggle("active");
-                });
+            // Junta as fixas com as novas criadas pela APM
+            let dataset = [...allOpps, ...customOpps];
+
+            // Pega usuário logado e propostas enviadas
+            const user = JSON.parse(sessionStorage.getItem("siscom_user"));
+            const storedProposals = JSON.parse(localStorage.getItem("siscom_my_proposals")) || [];
+            const myProposals = (user && user.role === 'fornecedor') ? storedProposals.filter(p => p.providerUser === user.user || p.providerName === user.name) : [];
+
+            // Se for APM, mostrar apenas oportunidades da sua escola
+            if (user && user.role === 'apm') {
+                dataset = dataset.filter(o => (o.school || '').trim() === (user.name || '').trim());
             }
 
-            const dynYear = document.getElementById("dynamic-year");
-            if(dynYear) dynYear.textContent = new Date().getFullYear();
+            // Ajuste para APM
+            if (user && user.role === 'apm') {
+                document.getElementById('apm-controls').style.display = 'block';
+                document.getElementById('panel-title').innerText = "Gestão de Oportunidades";
+            }
 
-            const schoolFilter = document.getElementById("school-filter");
-            const statusFilter = document.getElementById("status-filter");
-            const tableFull = document.getElementById("opportunities-table-full");
+            const grid = document.getElementById('opportunities-grid');
+            const schoolFilter = document.getElementById('school-filter');
+            const statusFilter = document.getElementById('status-filter');
 
-            if (schoolFilter && statusFilter && tableFull) {
-                const rows = tableFull.querySelectorAll("tbody tr");
+            function render() {
+                grid.innerHTML = "";
+                const schoolVal = schoolFilter.value;
+                const statusVal = statusFilter.value;
+                let hasItem = false;
 
-                function normalizeText(text) {
-                    return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                }
+                dataset.forEach(opp => {
+                    // --- LÓGICA DE PROPOSTA ENVIADA ---
+                    // Verifica se existe alguma proposta salva para esta opportunityId (quando disponível) ou por título
+                    const isSent = myProposals.some(p => (p.opportunityId && opp.id) ? p.opportunityId === opp.id : ((p.title || '').trim().toLowerCase() === (opp.title || '').trim().toLowerCase()));
 
-                function applyFilters() {
-                    const schoolValue = normalizeText(schoolFilter.value);
-                    const statusValue = normalizeText(statusFilter.value);
+                    // --- FILTROS ---
+                    let show = true;
 
-                    rows.forEach(row => {
-                        const schoolText = normalizeText(row.cells[0].textContent);
-                        const statusEl = row.querySelector(".status");
-                        const statusText = statusEl ? normalizeText(statusEl.textContent) : "";
+                    // Filtro Escola
+                    if (schoolVal !== 'todas') {
+                        if (schoolVal === 'helena' && !opp.school.includes('Helena')) show = false;
+                        if (schoolVal === 'ribeiro' && !opp.school.includes('Ribeiro')) show = false;
+                        if (schoolVal === 'saulo' && !opp.school.includes('Saulo')) show = false;
+                    }
 
-                        const matchSchool = (schoolValue === "todas" || schoolText.includes(schoolValue));
+                    // Filtro Status (Complexo)
+                    if (statusVal === 'enviada') {
+                        if (!isSent) show = false;
+                    } else if (statusVal === 'disponivel') {
+                        // Disponível é: não enviada E não encerrada
+                        if (isSent || opp.status === 'encerrado') show = false;
+                    } else if (statusVal === 'encerrado') {
+                        if (opp.status !== 'encerrado') show = false;
+                    }
+
+                    if (show) {
+                        hasItem = true;
                         
-                        const matchStatus = (statusValue === "todos" || statusText.includes(statusValue));
+                        // Define botão e labels
+                        let actionBtn = "";
+                        let statusBadge = "";
+                        let btnClass = "btn-card-action"; // Classe correta do CSS
 
-                        if (matchSchool && matchStatus) {
-                            row.style.display = "";
-                        } else {
-                            row.style.display = "none";
+                        // Lógica de exibição do botão
+                        if (user && user.role === 'apm' && user.name === opp.school) {
+                            actionBtn = `<a href="gerenciar-oportunidade.html?id=${encodeURIComponent(opp.id || '')}" class="${btnClass}" style="background:#000; color:#fff; border-color:#000;">Gerenciar</a>`;
+                        } 
+                        else if (isSent) {
+                            // SE JÁ ENVIOU
+                            statusBadge = `<div class="badge-status-sent"><i class="fas fa-check-circle"></i> Proposta Enviada</div>`;
+                            actionBtn = `<button class="${btnClass}" disabled style="background:#e0e0e0; color:#555; border-color:#ccc; cursor: default;">Ver Detalhes</button>`;
                         }
-                    });
-                }
+                        else if (opp.status === 'encerrado') {
+                            actionBtn = `<button class="${btnClass}" disabled style="opacity:0.6; cursor: not-allowed;">Encerrado</button>`;
+                        }
+                        else {
+                            // Botão padrão de enviar: apenas fornecedores logados podem enviar
+                                if (user && user.role === 'fornecedor') {
+                                    actionBtn = `<a href="enviar-orcamento.html?school=${encodeURIComponent(opp.school)}&title=${encodeURIComponent(opp.title)}&id=${encodeURIComponent(opp.id || '')}" class="${btnClass}">Enviar Orçamento</a>`;
+                                } else {
+                                    actionBtn = `<a href="login.html" class="${btnClass}">Entrar para Enviar</a>`;
+                                }
+                        }
 
-                schoolFilter.addEventListener("change", applyFilters);
-                statusFilter.addEventListener("change", applyFilters);
+                        // --- GERAÇÃO DO HTML (USANDO CLASSES CORRETAS DO STYLE.CSS) ---
+                        const cardHTML = `
+                            <div class="opportunity-card" data-id="${opp.id || ''}">
+                                <div class="card-header">
+                                    <h3 class="card-title">${opp.title}</h3>
+                                    <div class="card-icon"><i class="${opp.icon}"></i></div>
+                                </div>
+                                
+                                ${statusBadge}
+                                
+                                <div class="card-school">${opp.school}</div>
+                                <div class="card-location"><i class="fas fa-map-marker-alt"></i> ${opp.location}</div>
+                                <p class="card-description">${opp.description}</p>
+                                
+                                <div class="card-footer">
+                                    <span class="badge-expiry ${opp.status === 'encerrado' ? 'closed' : ''}">
+                                        ${opp.status === 'encerrado' ? 'Encerrado' : 'Expira: ' + opp.expiry}
+                                    </span>
+                                    ${actionBtn}
+                                </div>
+                            </div>
+                        `;
+                        grid.innerHTML += cardHTML;
+                    }
+                });
+
+                document.getElementById('no-results').style.display = hasItem ? 'none' : 'block';
             }
+
+            // Event Listeners
+            schoolFilter.addEventListener('change', render);
+            statusFilter.addEventListener('change', render);
+
+            // Renderiza inicial
+            render();
         });
     </script>
-
 </body>
 </html>

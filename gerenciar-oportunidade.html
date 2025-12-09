@@ -57,6 +57,7 @@
                         <h1 id="page-opp-title" style="margin: 0; font-size: 1.8rem;">Carregando...</h1>
                     </div>
                     <span class="status-badge">Em Aberto - Recebendo Propostas</span>
+
                 </div>
             </div>
         </div>
@@ -64,6 +65,7 @@
         <div class="container">
             <div class="summary-card">
                 <h3 style="margin-top: 0; font-size: 1.1rem;"><i class="fas fa-info-circle"></i> Resumo da Solicitação</h3>
+
                 <p id="page-opp-desc" style="margin-bottom: 0; color: #555;">...</p>
             </div>
 
@@ -74,18 +76,23 @@
                     <thead>
                         <tr>
                             <th>Prestador de Serviço</th>
+
                             <th>Avaliação (Média)</th>
+
                             <th>Data Envio</th>
                             <th>Valor Total</th>
                             <th>Ação</th>
                         </tr>
                     </thead>
                     <tbody id="received-proposals-body">
+
                         </tbody>
+
                 </table>
             </div>
         </div>
     </main>
+
 
     <div id="pdf-modal" class="pdf-modal-overlay">
         <div class="pdf-modal-content">
@@ -221,6 +228,7 @@
         function aprovar(name) {
             if(confirm(`Deseja adjudicar o serviço para ${name}?`)) {
                 alert("Processo aprovado com sucesso!");
+
                 window.location.href = "oportunidades.html";
             }
         }

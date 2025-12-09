@@ -814,6 +814,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 p.classList.toggle("active");
                 b.style.maxHeight = p.classList.contains("active") ? b.scrollHeight + "px" : 0;
             });
+
         });
 
     } catch (error) {
